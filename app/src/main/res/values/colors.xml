@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="material_purple_200">#FFBB86FC</color>
+    <color name="material_purple_500">#FF6200EE</color>
+    <color name="material_purple_700">#FF3700B3</color>
+    <color name="material_teal_200">#FF03DAC5</color>
+    <color name="material_teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="main_text_color">#010f07</color>
+    <color name="google_color">#4285f4</color>
+    <color name="facebook_color">#395998</color>
+
+    <color name="white_bg_color">#FFFFFFFF</color>
+    <color name="darkmode_bg_color">#1f2123</color>
+
+    <color name="input_color">#f6f8fc</color>
+    <color name="darkmode_input">#2f3233</color>
+
+    <color name="grey_body_text_color">#757575</color>
+    <color name="grey_darkmode_body_text">#adadad</color>
+
+    <color name="main_green_color">#22a45d</color>
+    <color name="main_green_color_100">#d2fad4</color>
+    <color name="main_green_color_200">#a7f5b3</color>
+    <color name="main_green_color_300">#77e392</color>
+    <color name="main_green_color_400">#51c87b</color>
+    <color name="main_green_color_600">#188d59</color>
+    <color name="main_green_color_700">#117653</color>
+
+    <color name="success_green_color">#43b726</color>
+    <color name="success_green_color_100">#e7fbd3</color>
+    <color name="success_green_color_200">#caf7a9</color>
+    <color name="success_green_color_300">#a1e97a</color>
+    <color name="success_green_color_400">#78d355</color>
+    <color name="success_green_color_600">#2c9d1a</color>
+    <color name="success_green_color_700">#188213</color>
+
+    <color name="blue_info_color">#186ddd</color>
+    <color name="blue_info_color_100">#d0ebfd</color>
+    <color name="blue_info_color_200">#a1d4fb</color>
+    <color name="blue_info_color_300">#71b5f4</color>
+    <color name="blue_info_color_400">#4d98ea</color>
+    <color name="blue_info_color_600">#1154be</color>
+    <color name="blue_info_color_700">#0c3e9f</color>
+
+    <color name="warning_yellow_color">#f7de00</color>
+    <color name="warning_yellow_color_100">#fefbcb</color>
+    <color name="warning_yellow_color_200">#fef798</color>
+    <color name="warning_yellow_color_300">#fcf065</color>
+    <color name="warning_yellow_color_400">#fae93e</color>
+    <color name="warning_yellow_color_600">#d4bc00</color>
+    <color name="warning_yellow_color_700">#b19c00</color>
+
+    <color name="danger_red_color">#e23d24</color>
+    <color name="danger_red_color_100">#fde5d2</color>
+    <color name="danger_red_color_200">#fcc6a7</color>
+    <color name="danger_red_color_300">#f69e7a</color>
+    <color name="danger_red_color_400">#ed7757</color>
+    <color name="danger_red_color_600">#c2231a</color>
+    <color name="danger_red_color_700">#a21215</color>
+</resources>
