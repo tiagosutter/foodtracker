@@ -28,6 +28,21 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.FirstFragment -> {
+                    supportActionBar?.hide()
+                    binding.fab.show()
+                }
+                else -> {
+                    supportActionBar?.show()
+                    binding.fab.hide()
+                }
+            }
+        }
+
+
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
