@@ -2,7 +2,7 @@ package br.dev.tiagosutter.foodtracker.dependencyinjection.app
 
 import android.content.Context
 import androidx.room.Room
-import br.dev.tiagosutter.foodtracker.FoodTrackerDatabase
+import br.dev.tiagosutter.foodtracker.database.FoodTrackerDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

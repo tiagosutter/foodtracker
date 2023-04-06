@@ -1,4 +1,4 @@
-package br.dev.tiagosutter.foodtracker
+package br.dev.tiagosutter.foodtracker.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

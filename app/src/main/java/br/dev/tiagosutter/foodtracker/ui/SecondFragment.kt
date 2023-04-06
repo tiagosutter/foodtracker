@@ -1,4 +1,4 @@
-package br.dev.tiagosutter.foodtracker
+package br.dev.tiagosutter.foodtracker.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import br.dev.tiagosutter.foodtracker.R
+import br.dev.tiagosutter.foodtracker.TestingDependencyInjection
 import br.dev.tiagosutter.foodtracker.databinding.FragmentSecondBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
