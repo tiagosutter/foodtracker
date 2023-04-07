@@ -14,9 +14,11 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
+            app:titleTextColor="?attr/colorOnSurface"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="?attr/colorSurface"
+            android:theme="@style/Theme.FoodTracker.Toolbar"
             app:popupTheme="@style/Theme.FoodTracker.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>

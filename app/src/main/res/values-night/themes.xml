@@ -2,15 +2,22 @@
     <!-- Base application theme. -->
     <style name="Theme.FoodTracker" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/material_purple_200</item>
-        <item name="colorPrimaryVariant">@color/material_purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">@color/main_green_color</item>
+        <item name="colorPrimaryVariant">@color/main_green_color_700</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/material_teal_200</item>
-        <item name="colorSecondaryVariant">@color/material_teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">@color/main_green_color</item>
+        <item name="colorSecondaryVariant">@color/main_green_color_700</item>
+        <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:textColor">@color/grey_darkmode_body_text</item>
+        <item name="colorSurface">@color/darkmode_bg_color</item>
+        <item name="colorOnSurface">@color/grey_darkmode_body_text</item>
+    </style>
+
+    <style name="Theme.FoodTracker.Toolbar">
+        <item name="android:textColorSecondary">?attr/colorOnSurface</item>
     </style>
 </resources>
