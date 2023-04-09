@@ -1,17 +1,17 @@
 package br.dev.tiagosutter.foodtracker.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import br.dev.tiagosutter.foodtracker.R
-import br.dev.tiagosutter.foodtracker.databinding.FragmentFirstBinding
+import br.dev.tiagosutter.foodtracker.databinding.FragmentFoodEntriesBinding
 
-class FirstFragment : Fragment() {
+class FoodEntriesFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentFoodEntriesBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -19,7 +19,7 @@ class FirstFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = FragmentFoodEntriesBinding.inflate(inflater, container, false)
         return binding.root
 
     }
