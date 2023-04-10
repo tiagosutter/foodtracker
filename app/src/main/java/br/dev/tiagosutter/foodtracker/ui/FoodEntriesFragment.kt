@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import br.dev.tiagosutter.foodtracker.R
 import br.dev.tiagosutter.foodtracker.databinding.FragmentFoodEntriesBinding
+import br.dev.tiagosutter.foodtracker.entities.FoodEntry
 
 class FoodEntriesFragment : Fragment() {
 
@@ -26,6 +27,18 @@ class FoodEntriesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val testData = listOf(
+            FoodEntryListItem.DateEntry("Hoje"),
+            FoodEntryListItem.FoodItem(
+                FoodEntry(
+                    "ing", "2023-04-09", "", 1
+                )
+            ),
+        )
+        binding.foodEntriesRecyclerView.adapter = FoodEntriesAdapter().apply {
+            submitList(testData)
+        }
 
         binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
