@@ -18,7 +18,7 @@
     <color name="input_color">#f6f8fc</color>
     <color name="darkmode_input">#2f3233</color>
 
-    <color name="grey_body_text_color">#757575</color>
+    <color name="grey_body_text_color">#656565</color>
     <color name="grey_darkmode_body_text">#adadad</color>
 
     <color name="main_green_color">#22a45d</color>
@@ -60,4 +60,5 @@
     <color name="danger_red_color_400">#ed7757</color>
     <color name="danger_red_color_600">#c2231a</color>
     <color name="danger_red_color_700">#a21215</color>
+    <color name="separator_color">#0D757575</color>
 </resources>
