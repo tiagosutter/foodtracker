@@ -6,9 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".ui.SecondFragment">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_margin="24dp"
+        android:background="@drawable/upload_photo_button_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textview_second"
         android:layout_width="wrap_content"
+        android:text="Some text"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/button_second"
         app:layout_constraintEnd_toEndOf="parent"
