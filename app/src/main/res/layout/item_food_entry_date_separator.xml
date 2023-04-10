@@ -7,7 +7,8 @@
     android:gravity="center"
     android:orientation="horizontal"
     android:paddingHorizontal="24dp"
-    android:paddingVertical="12dp">
+    android:paddingVertical="12dp"
+    android:layout_marginBottom="8dp">
 
 
     <TextView
