@@ -2,9 +2,11 @@ package br.dev.tiagosutter.foodtracker.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import br.dev.tiagosutter.foodtracker.R
 import br.dev.tiagosutter.foodtracker.databinding.ItemFoodEntryBinding
 import br.dev.tiagosutter.foodtracker.databinding.ItemFoodEntryDateSeparatorBinding
 import br.dev.tiagosutter.foodtracker.entities.FoodEntry
@@ -109,11 +111,26 @@ class FoodEntriesAdapter(private val interaction: Interaction? = null) :
     }
 }
 
-class FoodItemViewHolder(private val binding: ItemFoodEntryBinding, private val interaction: Interaction?) :
+class FoodItemViewHolder(
+    private val binding: ItemFoodEntryBinding,
+    private val interaction: Interaction?
+) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: FoodEntryListItem.FoodItem) {
         binding.itemFoodEntryIngredients.text = item.foodEntry.ingredients
+        val context = binding.root.context
+        if (item.foodEntry.symptoms.isBlank()) {
+            val green100 = ContextCompat.getColorStateList(context, R.color.main_green_color_100)
+            val mainGreen = ContextCompat.getColorStateList(context, R.color.main_green_color)
+            binding.itemFoodEntryCard.backgroundTintList = green100
+            binding.itemFoodEntryCardTop.backgroundTintList = mainGreen
+        } else {
+            val red100 = ContextCompat.getColorStateList(context, R.color.danger_red_color_100)
+            val red600 = ContextCompat.getColorStateList(context, R.color.danger_red_color_600)
+            binding.itemFoodEntryCard.backgroundTintList = red100
+            binding.itemFoodEntryCardTop.backgroundTintList = red600
+        }
     }
 }
 

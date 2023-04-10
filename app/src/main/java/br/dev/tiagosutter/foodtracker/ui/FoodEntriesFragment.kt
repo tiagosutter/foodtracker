@@ -33,8 +33,13 @@ class FoodEntriesFragment : Fragment() {
             FoodEntryListItem.FoodItem(
                 FoodEntry(
                     "ing", "2023-04-09", "", 1
-                )
+                ),
             ),
+            FoodEntryListItem.FoodItem(
+                FoodEntry(
+                    "ing", "2023-04-09", "teste", 2
+                ),
+            )
         )
         binding.foodEntriesRecyclerView.adapter = FoodEntriesAdapter().apply {
             submitList(testData)
