@@ -17,6 +17,7 @@
         <item name="colorOnSurface">@color/grey_darkmode_body_text</item>
 
         <item name="inputColor">@color/darkmode_input</item>
+        <item name="greyTextColor">@color/grey_darkmode_body_text</item>
     </style>
 
     <style name="Theme.FoodTracker.Toolbar">

@@ -16,6 +16,7 @@
         <item name="colorSurface">@color/white_bg_color</item>
         <item name="colorOnSurface">@color/black</item>
         <item name="inputColor">@color/input_color</item>
+        <item name="greyTextColor">@color/grey_body_text_color</item>
     </style>
 
     <style name="Theme.FoodTracker.NoActionBar">

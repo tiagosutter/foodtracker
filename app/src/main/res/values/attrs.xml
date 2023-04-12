@@ -2,5 +2,6 @@
 <resources>
     <declare-styleable name="Theme">
         <attr name="inputColor" format="reference|color" />
+        <attr name="greyTextColor" format="reference|color" />
     </declare-styleable>
 </resources>
