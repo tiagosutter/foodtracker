@@ -7,7 +7,7 @@
     tools:context=".ui.NewFoodEntryFragment">
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/uploadImageBackgroundView"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_margin="24dp"
@@ -17,39 +17,86 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/dateAndTimeTextView"
         style="@style/TextBody2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/date_and_time"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintStart_toStartOf="@+id/uploadImageBackgroundView"
+        app:layout_constraintTop_toBottomOf="@+id/uploadImageBackgroundView" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/dateEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/default_input_background"
         android:drawableEnd="@drawable/calendar"
         android:padding="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/editText2"
+        app:layout_constraintEnd_toStartOf="@+id/timeOfDayEditText"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="@+id/dateAndTimeTextView"
+        app:layout_constraintTop_toBottomOf="@+id/dateAndTimeTextView" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/timeOfDayEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="24dp"
         android:background="@drawable/default_input_background"
         android:drawableEnd="@drawable/time"
         android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/uploadImageBackgroundView"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/editText"
-        app:layout_constraintTop_toTopOf="@+id/editText" />
+        app:layout_constraintStart_toEndOf="@+id/dateEditText"
+        app:layout_constraintTop_toTopOf="@+id/dateEditText" />
+
+    <TextView
+        android:id="@+id/igredientsTextView"
+        style="@style/TextBody2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/ingredients"
+        app:layout_constraintStart_toStartOf="@+id/uploadImageBackgroundView"
+        app:layout_constraintTop_toBottomOf="@+id/dateEditText" />
+
+    <EditText
+        android:id="@+id/ingredientsTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/default_input_background"
+        android:gravity="top"
+        android:lines="4"
+        android:padding="16dp"
+        android:scrollbars="vertical"
+        app:layout_constraintEnd_toEndOf="@+id/uploadImageBackgroundView"
+        app:layout_constraintStart_toStartOf="@+id/igredientsTextView"
+        app:layout_constraintTop_toBottomOf="@+id/igredientsTextView" />
+
+    <TextView
+        android:id="@+id/symptomsTextView"
+        style="@style/TextBody2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/symptoms"
+        app:layout_constraintStart_toStartOf="@+id/uploadImageBackgroundView"
+        app:layout_constraintTop_toBottomOf="@+id/ingredientsTextView" />
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/default_input_background"
+        android:gravity="top"
+        android:lines="4"
+        android:padding="16dp"
+        android:scrollbars="vertical"
+        app:layout_constraintEnd_toEndOf="@+id/uploadImageBackgroundView"
+        app:layout_constraintStart_toStartOf="@+id/igredientsTextView"
+        app:layout_constraintTop_toBottomOf="@+id/symptomsTextView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
