@@ -13,4 +13,5 @@
     <string name="date_and_time">Date and time</string>
     <string name="ingredients">Ingredients</string>
     <string name="symptoms">Symptoms</string>
+    <string name="save">Save</string>
 </resources>

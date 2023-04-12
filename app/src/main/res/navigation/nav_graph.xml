@@ -3,26 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/FoodEntriesListFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/FoodEntriesListFragment"
         android:name="br.dev.tiagosutter.foodtracker.ui.FoodEntriesFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_food_entries">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_FoodEntriesListFragment_to_NewFoodEntryFragment"
+            app:destination="@id/NewFoodEntryFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
+        android:id="@+id/NewFoodEntryFragment"
         android:name="br.dev.tiagosutter.foodtracker.ui.NewFoodEntryFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_new_food_entry">
 
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_NewFoodEntryFragment_to_FoodEntriesListFragment"
+            app:destination="@id/FoodEntriesListFragment" />
     </fragment>
 </navigation>
