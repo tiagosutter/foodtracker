@@ -11,6 +11,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NewFoodEntryViewModel @Inject constructor(private val dao: FoodEntryDao) : ViewModel() {
 
+
     fun submitForm(foodEntry: FoodEntry) {
         viewModelScope.launch {
             dao.upsertFoodEntry(foodEntry)

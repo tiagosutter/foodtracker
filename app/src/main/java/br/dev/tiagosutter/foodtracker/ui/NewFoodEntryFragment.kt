@@ -1,20 +1,24 @@
 package br.dev.tiagosutter.foodtracker.ui
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import br.dev.tiagosutter.foodtracker.R
 import br.dev.tiagosutter.foodtracker.databinding.FragmentNewFoodEntryBinding
-import br.dev.tiagosutter.foodtracker.entities.FoodEntry
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
+import java.util.*
 
 @AndroidEntryPoint
 class NewFoodEntryFragment : Fragment() {
 
+    private var timeOfDay: String? = null
+    private var date: LocalDate? = null
     private var _binding: FragmentNewFoodEntryBinding? = null
     private val binding get() = _binding!!
 
@@ -49,6 +53,29 @@ class NewFoodEntryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val cal = Calendar.getInstance()
+        val year = cal.get(Calendar.YEAR)
+        val month = cal.get(Calendar.MONTH)
+        val dayOfMonth = cal.get(Calendar.DAY_OF_MONTH)
+        binding.dateInput.setOnClickListener {
+            DatePickerDialog(
+                requireContext(),
+                { _, year, month, dayOfMonth ->
+                    date = LocalDate.of(year, month+1, dayOfMonth)
+                    binding.dateInput.text = "$year ${month+1} $dayOfMonth"
+                },
+                year, month, dayOfMonth
+            ).show()
+        }
+
+        binding.timeOfDayInput.setOnClickListener {
+            TimePickerDialog(
+                requireContext(), { view, hour, minute ->
+                    timeOfDay = "$hour:$minute"
+                },
+                0, 0, true
+            ).show()
+        }
     }
 
     override fun onDestroyView() {
