@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
     android:background="@color/separator_color"
     android:gravity="center"
     android:orientation="horizontal"
     android:paddingHorizontal="24dp"
-    android:paddingVertical="12dp"
-    android:layout_marginBottom="8dp">
+    android:paddingVertical="12dp">
 
 
     <TextView
@@ -30,6 +30,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/add_new_item_to_this_date"
-        android:src="@drawable/add" />
+        android:src="@drawable/add"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
 </LinearLayout>
