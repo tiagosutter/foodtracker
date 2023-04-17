@@ -6,11 +6,13 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import br.dev.tiagosutter.foodtracker.R
 import br.dev.tiagosutter.foodtracker.databinding.ActivityMainBinding
+import br.dev.tiagosutter.foodtracker.ui.entrieslist.FoodEntriesFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -50,7 +52,9 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.fab.setOnClickListener {
-            navController.navigate(R.id.action_FoodEntriesListFragment_to_NewFoodEntryFragment)
+            val action = FoodEntriesFragmentDirections
+                .actionFoodEntriesListFragmentToNewFoodEntryFragment(null)
+            navController.navigate(action)
         }
     }
 

@@ -25,7 +25,7 @@ sealed class FoodEntryListItem {
     data class FoodItem(val foodEntry: FoodEntry) : FoodEntryListItem()
 }
 
-class FoodEntriesAdapter(private val interaction: Interaction? = null) :
+class FoodEntriesAdapter(private val interaction: Interaction) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -113,12 +113,15 @@ class FoodEntriesAdapter(private val interaction: Interaction? = null) :
 
 class FoodItemViewHolder(
     private val binding: ItemFoodEntryBinding,
-    private val interaction: Interaction?
+    private val interaction: Interaction
 ) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: FoodEntryListItem.FoodItem) {
         binding.itemFoodEntryIngredients.text = item.foodEntry.ingredients
+        binding.editEntryImageView.setOnClickListener {
+            interaction.onItemEditClicked(adapterPosition, item)
+        }
         val context = binding.root.context
         if (item.foodEntry.symptoms.isBlank()) {
             val green100 = ContextCompat.getColorStateList(context, R.color.main_green_color_100)
@@ -140,7 +143,7 @@ class FoodItemViewHolder(
 
 class DateViewHolder(
     private val binding: ItemFoodEntryDateSeparatorBinding,
-    private val interaction: Interaction?
+    private val interaction: Interaction
 ) :
     RecyclerView.ViewHolder(binding.root) {
 
@@ -150,6 +153,6 @@ class DateViewHolder(
 }
 
 interface Interaction {
-    fun onItemEditClicked(position: Int, item: FoodEntryListItem)
-    fun onAddItemToDateClicked(position: Int, item: FoodEntryListItem)
+    fun onItemEditClicked(position: Int, item: FoodEntryListItem.FoodItem)
+    fun onAddItemToDateClicked(position: Int, item: FoodEntryListItem.DateEntry)
 }

@@ -6,17 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import br.dev.tiagosutter.foodtracker.databinding.FragmentFoodEntriesBinding
+import br.dev.tiagosutter.foodtracker.ui.newentry.NewFoodEntryFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
 @AndroidEntryPoint
-class FoodEntriesFragment() : Fragment() {
+class FoodEntriesFragment : Fragment(), Interaction {
 
     private var _binding: FragmentFoodEntriesBinding? = null
     private val binding get() = _binding!!
-    private val foodEntriesAdapter: FoodEntriesAdapter = FoodEntriesAdapter()
+    private val foodEntriesAdapter: FoodEntriesAdapter = FoodEntriesAdapter(this)
 
     private val viewModel: FoodEntriesViewModel by viewModels()
 
@@ -59,5 +61,15 @@ class FoodEntriesFragment() : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onItemEditClicked(position: Int, item: FoodEntryListItem.FoodItem) {
+        val action = FoodEntriesFragmentDirections
+            .actionFoodEntriesListFragmentToNewFoodEntryFragment(item.foodEntry)
+        findNavController().navigate(action)
+    }
+
+    override fun onAddItemToDateClicked(position: Int, item: FoodEntryListItem.DateEntry) {
+        TODO("Not yet implemented")
     }
 }

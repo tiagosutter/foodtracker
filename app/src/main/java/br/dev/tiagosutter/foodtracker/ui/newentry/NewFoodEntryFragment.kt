@@ -10,6 +10,8 @@ import androidx.core.view.MenuProvider
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import br.dev.tiagosutter.foodtracker.BuildConfig
 import br.dev.tiagosutter.foodtracker.R
 import br.dev.tiagosutter.foodtracker.databinding.FragmentNewFoodEntryBinding
@@ -27,6 +29,10 @@ class NewFoodEntryFragment : Fragment() {
     private var date: LocalDate? = null
     private var _binding: FragmentNewFoodEntryBinding? = null
     private val binding get() = _binding!!
+
+    val args: NewFoodEntryFragmentArgs by navArgs()
+    private val foodEntry = args.foodEntry
+
     val dateAndTime: String
         get() {
             return if (date != null && timeOfDay != null) {
@@ -43,24 +49,7 @@ class NewFoodEntryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val menuHost = requireActivity() as MenuHost
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                // no-op
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return when (menuItem.itemId) {
-                    R.id.action_save -> {
-                        val symptoms = binding.symptomsTextView.text.toString()
-                        val ingredients = binding.ingredientsEditText.text.toString()
-                        viewModel.submitForm(FoodEntry(ingredients, dateAndTime, symptoms, 0))
-                        true
-                    }
-                    else -> false
-                }
-            }
-        }, viewLifecycleOwner)
+        setupMenuClickListener()
 
         _binding = FragmentNewFoodEntryBinding.inflate(inflater, container, false)
         return binding.root
@@ -69,11 +58,10 @@ class NewFoodEntryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        handleArgs()
         setupDataInput()
         setupTimeInput()
-        binding.ingredientsEditText.addTextChangedListener {
-            binding.ingredientsTextInputLayout.error = null
-        }
+        setupIngredientsTextListener()
     }
 
     override fun onStart() {
@@ -89,13 +77,57 @@ class NewFoodEntryFragment : Fragment() {
                 }
                 NewFoodEntryViewModel.SaveResult.Success -> {
                     if (BuildConfig.DEBUG) {
-                        Toast.makeText(requireContext(), "Successful save", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Successful save", Toast.LENGTH_SHORT)
+                            .show()
                     }
                     // TODO: Success dialog before going back just to have some dialogs usage
-                    //   findNavController().popBackStack()
+                    findNavController().popBackStack()
                 }
             }
         }
+    }
+
+    private fun handleArgs() {
+        if (foodEntry != null) {
+            val localizedDateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+            val dateYearMonthDay = foodEntry.getDateYearMonthDay()
+            date = LocalDate.parse(dateYearMonthDay)
+            timeOfDay = foodEntry.getTimeOfDay()
+
+            binding.dateInput.text = localizedDateFormatter.format(date)
+            binding.timeOfDayInput.text = timeOfDay
+
+            binding.ingredientsEditText.setText(foodEntry.ingredients)
+            binding.symptomsEditText.setText(foodEntry.symptoms)
+        }
+    }
+
+    private fun setupIngredientsTextListener() {
+        binding.ingredientsEditText.addTextChangedListener {
+            binding.ingredientsTextInputLayout.error = null
+        }
+    }
+
+    private fun setupMenuClickListener() {
+        val menuHost = requireActivity() as MenuHost
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                // no-op
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.action_save -> {
+                        val symptoms = binding.symptomsEditText.text.toString()
+                        val ingredients = binding.ingredientsEditText.text.toString()
+                        val id = args.foodEntry?.foodEntryId ?: 0
+                        viewModel.submitForm(FoodEntry(ingredients, dateAndTime, symptoms, id))
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner)
     }
 
     private fun setupTimeInput() {
@@ -122,7 +154,8 @@ class NewFoodEntryFragment : Fragment() {
                 { _, year, month, dayOfMonth ->
                     date = LocalDate.of(year, month + 1, dayOfMonth)
 
-                    val localizedDateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+                    val localizedDateFormatter =
+                        DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
                     binding.dateInput.text = localizedDateFormatter.format(date)
                 },
                 year, month, dayOfMonth

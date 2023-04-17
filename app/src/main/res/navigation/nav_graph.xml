@@ -24,5 +24,9 @@
         <action
             android:id="@+id/action_NewFoodEntryFragment_to_FoodEntriesListFragment"
             app:destination="@id/FoodEntriesListFragment" />
+        <argument
+            android:name="foodEntry"
+            app:argType="br.dev.tiagosutter.foodtracker.entities.FoodEntry"
+            app:nullable="true" />
     </fragment>
 </navigation>
