@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import br.dev.tiagosutter.foodtracker.databinding.FragmentFoodEntriesBinding
-import br.dev.tiagosutter.foodtracker.ui.newentry.NewFoodEntryFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -34,7 +35,23 @@ class FoodEntriesFragment : Fragment(), Interaction {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val simpleCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean = true
 
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val foodEntryListItem = foodEntriesAdapter.differ.currentList[position]
+                if (foodEntryListItem is FoodEntryListItem.FoodItem) {
+                    viewModel.deleteEntry(foodEntryListItem.foodEntry)
+                }
+            }
+        }
+        val touchHelper = ItemTouchHelper(simpleCallback)
+        touchHelper.attachToRecyclerView(binding.foodEntriesRecyclerView)
         binding.foodEntriesRecyclerView.adapter = foodEntriesAdapter
     }
 

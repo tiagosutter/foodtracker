@@ -54,7 +54,7 @@ class FoodEntriesAdapter(private val interaction: Interaction) :
         }
 
     }
-    private val differ = AsyncListDiffer(this, diffCallback)
+    val differ = AsyncListDiffer(this, diffCallback)
 
 
     override fun getItemViewType(position: Int): Int {

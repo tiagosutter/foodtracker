@@ -34,4 +34,10 @@ class FoodEntriesViewModel @Inject constructor(private val dao: FoodEntryDao) : 
         }
     }
 
+    fun deleteEntry(foodEntry: FoodEntry) {
+        viewModelScope.launch {
+            dao.deleteFoodEntry(foodEntry)
+        }
+    }
+
 }
