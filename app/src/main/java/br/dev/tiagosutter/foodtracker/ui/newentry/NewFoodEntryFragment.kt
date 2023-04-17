@@ -1,4 +1,4 @@
-package br.dev.tiagosutter.foodtracker.ui
+package br.dev.tiagosutter.foodtracker.ui.newentry
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -89,7 +89,7 @@ class NewFoodEntryFragment : Fragment() {
                 }
                 NewFoodEntryViewModel.SaveResult.Success -> {
                     if (BuildConfig.DEBUG) {
-                        Toast.makeText(requireContext(), "Succesful save", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Successful save", Toast.LENGTH_SHORT).show()
                     }
                     // TODO: Success dialog before going back just to have some dialogs usage
                     //   findNavController().popBackStack()

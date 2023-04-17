@@ -1,4 +1,4 @@
-package br.dev.tiagosutter.foodtracker.ui
+package br.dev.tiagosutter.foodtracker.ui.entrieslist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
