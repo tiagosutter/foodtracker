@@ -39,12 +39,14 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
+                    android:id="@+id/statusImage"
                     android:layout_width="16dp"
                     android:layout_height="24dp"
                     android:importantForAccessibility="no"
                     tools:src="@drawable/sick" />
 
                 <TextView
+                    android:id="@+id/status_text"
                     style="@style/TextBody1"
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"

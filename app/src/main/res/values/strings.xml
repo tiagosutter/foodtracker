@@ -17,4 +17,6 @@
     <string name="add_new_food_entry">Add new food entry</string>
     <string name="moment_of_the_day_is_required">Moment of the day is required</string>
     <string name="ingredients_required">You must specify ingredients</string>
+    <string name="all_fine">Normal</string>
+    <string name="symptomatic">Symptomatic</string>
 </resources>

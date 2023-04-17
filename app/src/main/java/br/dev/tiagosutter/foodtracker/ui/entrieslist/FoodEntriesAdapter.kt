@@ -125,11 +125,15 @@ class FoodItemViewHolder(
             val mainGreen = ContextCompat.getColorStateList(context, R.color.main_green_color)
             binding.itemFoodEntryCard.backgroundTintList = green100
             binding.itemFoodEntryCardTop.backgroundTintList = mainGreen
+            binding.statusImage.setImageResource(R.drawable.smile)
+            binding.statusText.setText(R.string.all_fine)
         } else {
             val red100 = ContextCompat.getColorStateList(context, R.color.danger_red_color_100)
             val red600 = ContextCompat.getColorStateList(context, R.color.danger_red_color_600)
             binding.itemFoodEntryCard.backgroundTintList = red100
             binding.itemFoodEntryCardTop.backgroundTintList = red600
+            binding.statusImage.setImageResource(R.drawable.sick)
+            binding.statusText.setText(R.string.symptomatic)
         }
     }
 }
