@@ -31,7 +31,6 @@ class NewFoodEntryFragment : Fragment() {
     private val binding get() = _binding!!
 
     val args: NewFoodEntryFragmentArgs by navArgs()
-    private val foodEntry = args.foodEntry
 
     val dateAndTime: String
         get() {
@@ -88,6 +87,8 @@ class NewFoodEntryFragment : Fragment() {
     }
 
     private fun handleArgs() {
+        val foodEntry = args.foodEntry
+
         if (foodEntry != null) {
             val localizedDateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
             val dateYearMonthDay = foodEntry.getDateYearMonthDay()
