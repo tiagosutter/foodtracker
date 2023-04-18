@@ -122,6 +122,7 @@ class FoodItemViewHolder(
         binding.editEntryImageView.setOnClickListener {
             interaction.onItemEditClicked(adapterPosition, item)
         }
+        binding.timeOfDayTextView.text = item.foodEntry.getTimeOfDay()
         val context = binding.root.context
         if (item.foodEntry.symptoms.isBlank()) {
             val green100 = ContextCompat.getColorStateList(context, R.color.main_green_color_100)

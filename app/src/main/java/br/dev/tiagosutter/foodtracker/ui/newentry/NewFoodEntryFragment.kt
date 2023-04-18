@@ -135,7 +135,9 @@ class NewFoodEntryFragment : Fragment() {
         binding.timeOfDayInput.setOnClickListener {
             TimePickerDialog(
                 requireContext(), { _, hour, minute ->
-                    timeOfDay = "$hour:$minute"
+                    val minutesPadStart = minute.toString().padStart(2, '0')
+                    val hoursPadStart = hour.toString().padStart(2, '0')
+                    timeOfDay = "$hoursPadStart:$minutesPadStart"
                     binding.timeOfDayInput.text = timeOfDay
                 },
                 0, 0, true
