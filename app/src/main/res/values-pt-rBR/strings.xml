@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FoodTracker</string>
+    <string name="action_settings">Configurações</string>
+    <string name="list_fragment_label">Registros</string>
+    <string name="new_entry_fragment_label">Novo Registro</string>
+    <string name="next">Próximo</string>
+    <string name="previous">Anterior</string>
+    <string name="add_new_item_to_this_date">Adicionar item a essa data</string>
+    <string name="date_and_time">Data e hora</string>
+    <string name="ingredients">Ingredientes</string>
+    <string name="symptoms">Sintomas</string>
+    <string name="save">Salvar</string>
+    <string name="add_new_food_entry">Adicionar novo registro</string>
+    <string name="moment_of_the_day_is_required">Informe o momento do dia</string>
+    <string name="ingredients_required">Você precisa informar os igredientes</string>
+    <string name="all_fine">Normal</string>
+    <string name="symptomatic">Com sintomas</string>
+    <string name="food_diary">Diário Alimentar</string>
+    <string name="no_records_found">Sem registros por enquanto</string>
+</resources>

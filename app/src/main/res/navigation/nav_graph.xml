@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/FoodEntriesListFragment"
         android:name="br.dev.tiagosutter.foodtracker.ui.entrieslist.FoodEntriesFragment"
-        android:label="@string/first_fragment_label"
+        android:label="@string/list_fragment_label"
         tools:layout="@layout/fragment_food_entries">
 
         <action
@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/NewFoodEntryFragment"
         android:name="br.dev.tiagosutter.foodtracker.ui.newentry.NewFoodEntryFragment"
-        android:label="@string/second_fragment_label"
+        android:label="@string/new_entry_fragment_label"
         tools:layout="@layout/fragment_new_food_entry">
 
         <action
