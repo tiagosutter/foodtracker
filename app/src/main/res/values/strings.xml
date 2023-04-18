@@ -19,4 +19,6 @@
     <string name="ingredients_required">You must specify ingredients</string>
     <string name="all_fine">Normal</string>
     <string name="symptomatic">Symptomatic</string>
+    <string name="food_diary">Food Diary</string>
+    <string name="no_records_found">No entries yet</string>
 </resources>

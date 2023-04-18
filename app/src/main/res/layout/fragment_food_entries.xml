@@ -14,26 +14,27 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/poppins_medium"
-        android:text="Food Diary"
+        android:text="@string/food_diary"
         android:textSize="28sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="24dp"
-        android:background="@null"
-        android:padding="8dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/more_vert"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/title"
-        app:layout_constraintTop_toTopOf="@+id/title"
-        app:tint="?attr/colorOnSurface"
-        tools:visibility="visible" />
+    <!--  TODO: Implement filters  -->
+    <!--    <ImageButton-->
+    <!--        android:layout_width="48dp"-->
+    <!--        android:layout_height="48dp"-->
+    <!--        android:layout_marginEnd="24dp"-->
+    <!--        android:background="@null"-->
+    <!--        android:padding="8dp"-->
+    <!--        android:scaleType="fitCenter"-->
+    <!--        android:src="@drawable/more_vert"-->
+    <!--        android:visibility="gone"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="1.0"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/title"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/title"-->
+    <!--        app:tint="?attr/colorOnSurface"-->
+    <!--        tools:visibility="visible" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/foodEntriesRecyclerView"
@@ -48,4 +49,20 @@
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintVertical_bias="0.5"
         tools:listitem="@layout/item_food_entry" />
+
+    <TextView
+        android:id="@+id/tvNoEntriesFound"
+        style="@style/TextBody1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins"
+        android:text="@string/no_records_found"
+        android:textSize="28sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/foodEntriesRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/foodEntriesRecyclerView"
+        tools:visibility="visible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

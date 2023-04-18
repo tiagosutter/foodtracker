@@ -57,6 +57,9 @@ class FoodEntriesFragment : Fragment(), Interaction {
 
     override fun onStart() {
         viewModel.entries.observe(viewLifecycleOwner) { foodEntriesByDate ->
+            if (foodEntriesByDate.isEmpty()) {
+                binding.tvNoEntriesFound.visibility = View.VISIBLE
+            }
             // TODO: ViewModel should directly handle mapping to ui models, and ui should not deal with mapping
             val list: MutableList<FoodEntryListItem> = mutableListOf()
             for (entry in foodEntriesByDate) {
