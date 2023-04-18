@@ -59,6 +59,8 @@ class FoodEntriesFragment : Fragment(), Interaction {
         viewModel.entries.observe(viewLifecycleOwner) { foodEntriesByDate ->
             if (foodEntriesByDate.isEmpty()) {
                 binding.tvNoEntriesFound.visibility = View.VISIBLE
+            } else {
+                binding.tvNoEntriesFound.visibility = View.GONE
             }
             // TODO: ViewModel should directly handle mapping to ui models, and ui should not deal with mapping
             val list: MutableList<FoodEntryListItem> = mutableListOf()
@@ -78,11 +80,6 @@ class FoodEntriesFragment : Fragment(), Interaction {
         super.onStart()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun onItemEditClicked(position: Int, item: FoodEntryListItem.FoodItem) {
         val action = FoodEntriesFragmentDirections
             .actionFoodEntriesListFragmentToNewFoodEntryFragment(item.foodEntry)
@@ -90,6 +87,13 @@ class FoodEntriesFragment : Fragment(), Interaction {
     }
 
     override fun onAddItemToDateClicked(position: Int, item: FoodEntryListItem.DateEntry) {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+
 }
