@@ -88,9 +88,9 @@ class NewFoodEntryFragment : Fragment() {
 
     private fun handleArgs() {
         val foodEntry = args.foodEntry
-
+        val initialDate = args.initialDate
+        val localizedDateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
         if (foodEntry != null) {
-            val localizedDateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
             val dateYearMonthDay = foodEntry.getDateYearMonthDay()
             date = LocalDate.parse(dateYearMonthDay)
             timeOfDay = foodEntry.getTimeOfDay()
@@ -100,6 +100,9 @@ class NewFoodEntryFragment : Fragment() {
 
             binding.ingredientsEditText.setText(foodEntry.ingredients)
             binding.symptomsEditText.setText(foodEntry.symptoms)
+        } else if (initialDate.isNotEmpty()) {
+            date = LocalDate.parse(initialDate)
+            binding.dateInput.text = localizedDateFormatter.format(date)
         }
     }
 
