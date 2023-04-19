@@ -65,9 +65,8 @@ class FoodEntriesFragment : Fragment(), Interaction {
             // TODO: ViewModel should directly handle mapping to ui models, and ui should not deal with mapping
             val list: MutableList<FoodEntryListItem> = mutableListOf()
             for (entry in foodEntriesByDate) {
-                val localizedDateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
-                val date = localizedDateFormatter.format(entry.date)
-                val dateTimeSeparator = FoodEntryListItem.DateEntry(date)
+
+                val dateTimeSeparator = FoodEntryListItem.DateEntry(entry.date)
                 val foodEntries = entry.entries.map {
                     FoodEntryListItem.FoodItem(it)
                 }
@@ -82,12 +81,14 @@ class FoodEntriesFragment : Fragment(), Interaction {
 
     override fun onItemEditClicked(position: Int, item: FoodEntryListItem.FoodItem) {
         val action = FoodEntriesFragmentDirections
-            .actionFoodEntriesListFragmentToNewFoodEntryFragment(item.foodEntry)
+            .actionFoodEntriesListFragmentToNewFoodEntryFragment(item.foodEntry, "")
         findNavController().navigate(action)
     }
 
     override fun onAddItemToDateClicked(position: Int, item: FoodEntryListItem.DateEntry) {
-        // TODO("Not yet implemented")
+        val action = FoodEntriesFragmentDirections
+            .actionFoodEntriesListFragmentToNewFoodEntryFragment(null, item.date.toString())
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {

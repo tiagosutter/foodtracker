@@ -28,5 +28,8 @@
             android:name="foodEntry"
             app:argType="br.dev.tiagosutter.foodtracker.entities.FoodEntry"
             app:nullable="true" />
+        <argument
+            android:name="initialDate"
+            app:argType="string" />
     </fragment>
 </navigation>

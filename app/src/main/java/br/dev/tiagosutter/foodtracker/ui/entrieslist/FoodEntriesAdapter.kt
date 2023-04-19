@@ -10,18 +10,21 @@ import br.dev.tiagosutter.foodtracker.R
 import br.dev.tiagosutter.foodtracker.databinding.ItemFoodEntryBinding
 import br.dev.tiagosutter.foodtracker.databinding.ItemFoodEntryDateSeparatorBinding
 import br.dev.tiagosutter.foodtracker.entities.FoodEntry
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 sealed class FoodEntryListItem {
 
     val id: String
         get() {
             return when (this) {
-                is DateEntry -> this.date
+                is DateEntry -> this.date.toString()
                 is FoodItem -> this.foodEntry.foodEntryId.toString()
             }
         }
 
-    data class DateEntry(val date: String) : FoodEntryListItem()
+    data class DateEntry(val date: LocalDate) : FoodEntryListItem()
     data class FoodItem(val foodEntry: FoodEntry) : FoodEntryListItem()
 }
 
@@ -149,7 +152,12 @@ class DateViewHolder(
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: FoodEntryListItem.DateEntry) {
-        binding.itemFoodEntrySeparatorText.text = item.date
+        val localizedDateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+        val date = localizedDateFormatter.format(item.date)
+        binding.itemFoodEntrySeparatorText.text = date
+        binding.addEntryToDate.setOnClickListener {
+            interaction.onAddItemToDateClicked(adapterPosition, item)
+        }
     }
 }
 

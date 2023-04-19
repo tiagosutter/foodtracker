@@ -2,11 +2,9 @@ package br.dev.tiagosutter.foodtracker.ui
 
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -53,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.fab.setOnClickListener {
             val action = FoodEntriesFragmentDirections
-                .actionFoodEntriesListFragmentToNewFoodEntryFragment(null)
+                .actionFoodEntriesListFragmentToNewFoodEntryFragment(null, "")
             navController.navigate(action)
         }
     }
