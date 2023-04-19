@@ -11,16 +11,36 @@
         android:layout_height="wrap_content"
         tools:context=".ui.newentry.NewFoodEntryFragment">
 
-        <View
-            android:id="@+id/uploadImageBackgroundView"
+        <LinearLayout
+            android:id="@+id/attachImageAction"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:visibility="gone"
+            android:orientation="horizontal"
             android:layout_margin="24dp"
+            android:gravity="center"
             android:background="@drawable/upload_photo_button_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iconCameraImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_camera" />
+
+            <TextView
+                android:id="@+id/attachImageTextView"
+                style="@style/TextBody3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/attach_image" />
+
+        </LinearLayout>
+
+
 
         <TextView
             android:id="@+id/dateAndTimeTextView"
@@ -33,7 +53,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/uploadImageBackgroundView" />
+            app:layout_constraintTop_toBottomOf="@+id/attachImageAction" />
 
         <TextView
             android:id="@+id/dateInput"

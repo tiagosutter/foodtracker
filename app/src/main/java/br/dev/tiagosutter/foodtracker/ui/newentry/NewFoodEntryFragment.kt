@@ -2,9 +2,12 @@ package br.dev.tiagosutter.foodtracker.ui.newentry
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.widget.addTextChangedListener
@@ -17,6 +20,7 @@ import br.dev.tiagosutter.foodtracker.R
 import br.dev.tiagosutter.foodtracker.databinding.FragmentNewFoodEntryBinding
 import br.dev.tiagosutter.foodtracker.entities.FoodEntry
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -29,6 +33,7 @@ class NewFoodEntryFragment : Fragment() {
     private var date: LocalDate? = null
     private var _binding: FragmentNewFoodEntryBinding? = null
     private val binding get() = _binding!!
+    private var takenPicture: TakenPicture? = null
 
     val args: NewFoodEntryFragmentArgs by navArgs()
 
@@ -40,6 +45,11 @@ class NewFoodEntryFragment : Fragment() {
                 ""
             }
         }
+
+    data class TakenPicture(
+        val uri: Uri,
+        val name: String
+    )
 
     private val viewModel: NewFoodEntryViewModel by viewModels()
 
@@ -61,6 +71,31 @@ class NewFoodEntryFragment : Fragment() {
         setupDataInput()
         setupTimeInput()
         setupIngredientsTextListener()
+
+        val takePicture =
+            registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
+                if (success) {
+                    // TODO: Handle the picture that has been taken
+                }
+            }
+
+        binding.attachImageAction.setOnClickListener {
+            val filesDir = File(requireContext().filesDir, "images")
+            if (!filesDir.exists()) {
+                filesDir.mkdirs()
+            }
+            val name = UUID.randomUUID().toString()
+            val photoFile = File(filesDir, name)
+            val photoFileUri = FileProvider.getUriForFile(
+                requireContext(),
+                "br.dev.tiagosutter.foodtracker.provider",
+                photoFile
+            )
+            takenPicture = TakenPicture(photoFileUri, name)
+            takePicture.launch(takenPicture?.uri)
+        }
+
+
     }
 
     override fun onStart() {
