@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import br.dev.tiagosutter.foodtracker.R
+import br.dev.tiagosutter.foodtracker.databinding.ItemAddMoreImagesBinding
 import br.dev.tiagosutter.foodtracker.databinding.ItemAttachedImageBinding
 import br.dev.tiagosutter.foodtracker.entities.SavedImage
 import com.bumptech.glide.Glide
@@ -25,15 +26,36 @@ private val diffCallback = object : DiffUtil.ItemCallback<SavedImage>() {
 class AttachedImagesAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    interface Interaction {
+        fun onItemClicked(position: Int, item: SavedImage)
+        fun onAddMoreClicked()
+    }
+
     private val differ = AsyncListDiffer(this, diffCallback)
+
+    object ViewTypes {
+        const val IMAGE = 0
+        const val ADD_MORE = 1
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemAttachedImageBinding.inflate(inflater, parent, false)
-        return AttachedImagesViewHolder(
-            binding,
-            interaction
-        )
+
+        return if (viewType == ViewTypes.IMAGE) {
+            val binding = ItemAttachedImageBinding.inflate(inflater, parent, false)
+            AttachedImagesViewHolder(binding, interaction)
+        } else {
+            val binding = ItemAddMoreImagesBinding.inflate(inflater, parent, false)
+            AddMoreImagesViewHolder(binding, interaction)
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position == differ.currentList.size) {
+            ViewTypes.ADD_MORE
+        } else {
+            ViewTypes.IMAGE
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -45,37 +67,42 @@ class AttachedImagesAdapter(private val interaction: Interaction? = null) :
     }
 
     override fun getItemCount(): Int {
-        return differ.currentList.size
+        return differ.currentList.size + 1
     }
 
     fun submitList(list: List<SavedImage>) {
         differ.submitList(list)
     }
 
-    class AttachedImagesViewHolder
-    constructor(
-        private val binding: ItemAttachedImageBinding,
-        private val interaction: Interaction?
-    ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: SavedImage) {
-            val context = itemView.context
-            itemView.setOnClickListener {
-                interaction?.onItemSelected(adapterPosition, item)
-            }
-            val filesDir = File(context.filesDir, "images")
-            val image = File(filesDir, item.name)
-            val radius =
-                context.resources.getDimensionPixelSize(R.dimen.attached_image_corner_radius)
+}
 
-            Glide.with(context)
-                .load(image.path)
-                .apply(RequestOptions().transform(CenterCrop(), RoundedCorners(radius)))
-                .into(binding.attachedImage);
-        }
+class AttachedImagesViewHolder constructor(
+    private val binding: ItemAttachedImageBinding,
+    private val interaction: AttachedImagesAdapter.Interaction?
+) : RecyclerView.ViewHolder(binding.root) {
+
+    fun bind(item: SavedImage) {
+        val context = itemView.context
+        val filesDir = File(context.filesDir, "images")
+        val image = File(filesDir, item.name)
+        val radius =
+            context.resources.getDimensionPixelSize(R.dimen.attached_image_corner_radius)
+
+        Glide.with(context)
+            .load(image.path)
+            .apply(RequestOptions().transform(CenterCrop(), RoundedCorners(radius)))
+            .into(binding.attachedImage)
     }
+}
 
-    interface Interaction {
-        fun onItemSelected(position: Int, item: SavedImage)
+class AddMoreImagesViewHolder constructor(
+    private val binding: ItemAddMoreImagesBinding,
+    private val interaction: AttachedImagesAdapter.Interaction?
+) : RecyclerView.ViewHolder(binding.root) {
+    init {
+        binding.attachedAnotherImage.setOnClickListener {
+            interaction?.onAddMoreClicked()
+        }
     }
 }

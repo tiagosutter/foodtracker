@@ -27,7 +27,7 @@ import java.time.format.FormatStyle
 import java.util.*
 
 @AndroidEntryPoint
-class NewFoodEntryFragment : Fragment() {
+class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
 
     private var timeOfDay: String? = null
     private var date: LocalDate? = null
@@ -48,6 +48,16 @@ class NewFoodEntryFragment : Fragment() {
 
     private val viewModel: NewFoodEntryViewModel by viewModels()
 
+    private lateinit var attachedImagesAdapter: AttachedImagesAdapter
+
+    private val takePictureLauncher =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
+            if (success) {
+                takenPicture?.let { viewModel.pictureTaken(it) }
+            }
+        }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,40 +70,35 @@ class NewFoodEntryFragment : Fragment() {
 
     }
 
-    private val attachedImagesAdapter = AttachedImagesAdapter()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         handleArgs()
         setupDataInput()
         setupTimeInput()
         setupIngredientsTextListener()
+
+        attachedImagesAdapter = AttachedImagesAdapter(this)
         binding.attachedImagesRecyclerView.adapter = attachedImagesAdapter
 
-        val takePicture =
-            registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
-                if (success) {
-                    takenPicture?.let { viewModel.pictureTaken(it) }
-                }
-            }
-
         binding.attachImageAction.setOnClickListener {
-            val filesDir = File(requireContext().filesDir, "images")
-            if (!filesDir.exists()) {
-                filesDir.mkdirs()
-            }
-            val name = UUID.randomUUID().toString()
-            val photoFile = File(filesDir, name)
-            val photoFileUri = FileProvider.getUriForFile(
-                requireContext(),
-                "br.dev.tiagosutter.foodtracker.provider",
-                photoFile
-            )
-            takenPicture = NewFoodEntryViewModel.TakenPicture(photoFileUri, name)
-            takePicture.launch(takenPicture?.uri)
+            takePicture()
         }
+    }
 
-
+    private fun takePicture() {
+        val filesDir = File(requireContext().filesDir, "images")
+        if (!filesDir.exists()) {
+            filesDir.mkdirs()
+        }
+        val name = UUID.randomUUID().toString()
+        val photoFile = File(filesDir, name)
+        val photoFileUri = FileProvider.getUriForFile(
+            requireContext(),
+            "br.dev.tiagosutter.foodtracker.provider",
+            photoFile
+        )
+        takenPicture = NewFoodEntryViewModel.TakenPicture(photoFileUri, name)
+        takePictureLauncher.launch(takenPicture?.uri)
     }
 
     override fun onStart() {
@@ -212,6 +217,15 @@ class NewFoodEntryFragment : Fragment() {
                 year, month, dayOfMonth
             ).show()
         }
+    }
+
+
+    override fun onItemClicked(position: Int, item: SavedImage) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onAddMoreClicked() {
+        takePicture()
     }
 
     override fun onDestroyView() {

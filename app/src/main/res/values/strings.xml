@@ -20,4 +20,5 @@
     <string name="food_diary">Food Diary</string>
     <string name="no_records_found">No entries yet</string>
     <string name="attach_image">Attach image</string>
+    <string name="add_more_images">Add more</string>
 </resources>

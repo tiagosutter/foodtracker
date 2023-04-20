@@ -18,4 +18,6 @@
     <string name="symptomatic">Com sintomas</string>
     <string name="food_diary">Diário Alimentar</string>
     <string name="no_records_found">Sem registros por enquanto</string>
+    <string name="attach_image">Anexar imagem</string>
+    <string name="add_more_images">Adicionar mais</string>
 </resources>
