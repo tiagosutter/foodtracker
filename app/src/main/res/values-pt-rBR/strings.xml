@@ -20,4 +20,6 @@
     <string name="no_records_found">Sem registros por enquanto</string>
     <string name="attach_image">Anexar imagem</string>
     <string name="add_more_images">Adicionar mais</string>
+    <string name="notification_title">Não esqueça do diário alimentar</string>
+    <string name="notification_body">Não deixe de registrar sua alimentação</string>
 </resources>

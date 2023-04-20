@@ -1,20 +1,31 @@
 package br.dev.tiagosutter.foodtracker.ui
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import br.dev.tiagosutter.foodtracker.NotificationScheduler
 import br.dev.tiagosutter.foodtracker.R
 import br.dev.tiagosutter.foodtracker.databinding.ActivityMainBinding
 import br.dev.tiagosutter.foodtracker.ui.entrieslist.FoodEntriesFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var notificationScheduler: NotificationScheduler
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -53,6 +64,46 @@ class MainActivity : AppCompatActivity() {
             val action = FoodEntriesFragmentDirections
                 .actionFoodEntriesListFragmentToNewFoodEntryFragment(null, "")
             navController.navigate(action)
+        }
+    }
+
+    override fun onStart() {
+        if (!hasNotificationPermission() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestNotificationPermission()
+        } else {
+            notificationScheduler.schedule()
+        }
+        super.onStart()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun requestNotificationPermission() {
+        val requestPermissionLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                if (isGranted) {
+                    notificationScheduler.schedule()
+                } else {
+                    // TODO:
+                    //  Explain to the user that the feature is unavailable because the
+                    //  feature requires a permission that the user has denied. At the
+                    //  same time, respect the user's decision. Don't link to system
+                    //  settings in an effort to convince the user to change their
+                    //  decision.
+                }
+            }
+        requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+    }
+
+    private fun hasNotificationPermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            true
         }
     }
 

@@ -21,4 +21,6 @@
     <string name="no_records_found">No entries yet</string>
     <string name="attach_image">Attach image</string>
     <string name="add_more_images">Add more</string>
+    <string name="notification_title">Don\'t forget about the food diary</string>
+    <string name="notification_body">Don\'t forget to register what you ate</string>
 </resources>
