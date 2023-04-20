@@ -1,14 +1,16 @@
 package br.dev.tiagosutter.foodtracker.database
 
+import android.util.Log
 import androidx.room.*
 import br.dev.tiagosutter.foodtracker.entities.FoodEntry
 import br.dev.tiagosutter.foodtracker.entities.FoodEntryWithImages
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 
 @Dao
 abstract class FoodEntryDao(database: FoodTrackerDatabase) {
 
-    private lateinit var savedImagesDao: SavedImageDao
+    private var savedImagesDao: SavedImageDao
 
     init {
         savedImagesDao = database.savedImagesDao()
@@ -25,11 +27,17 @@ abstract class FoodEntryDao(database: FoodTrackerDatabase) {
 
     @Transaction
     open suspend fun insertFoodEntryWithImages(foodEntyWithImages: FoodEntryWithImages) {
+        val upsertedFoodEntryId = upsertFoodEntry(foodEntyWithImages.foodEntry)
+        Log.d("FoodEntryDao", "insertFoodEntryWithImages: $upsertedFoodEntryId")
+        if (upsertedFoodEntryId != -1L) {
+            for (image in foodEntyWithImages.images) {
+                image.parentFoodEntryId = upsertedFoodEntryId
+            }
+        }
         savedImagesDao.insertSavedImages(foodEntyWithImages.images)
-        upsertFoodEntry(foodEntyWithImages.foodEntry)
     }
 
     @Transaction
-    @Query("SELECT * FROM food_entry WHERE foodEntryId = :id ORDER BY dateAndTime")
-    abstract fun getFoodEntryWithImagesById(id: Int): Flow<FoodEntryWithImages>
+    @Query("SELECT * FROM food_entry WHERE foodEntryId = :id")
+    abstract fun getFoodEntryWithImagesById(id: Long): Flow<FoodEntryWithImages>
 }

@@ -64,10 +64,36 @@ class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
     ): View {
 
         setupMenuClickListener()
-
+        setupViewModelObservers()
         _binding = FragmentNewFoodEntryBinding.inflate(inflater, container, false)
         return binding.root
 
+    }
+
+    private fun setupViewModelObservers() {
+        viewModel.allImages.observe(viewLifecycleOwner) { images ->
+            loadImagePreviews(images)
+        }
+
+        viewModel.saveResult.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                NewFoodEntryViewModel.SaveResult.DateTimeEmptyError -> {
+                    binding.dateTimeRequiredErroTextView.visibility = View.VISIBLE
+                }
+                NewFoodEntryViewModel.SaveResult.IngredientsEmptyError -> {
+                    binding.ingredientsTextInputLayout.error =
+                        getString(R.string.ingredients_required)
+                }
+                NewFoodEntryViewModel.SaveResult.Success -> {
+                    if (BuildConfig.DEBUG) {
+                        Toast.makeText(requireContext(), "Successful save", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    // TODO: Success dialog before going back just to have some dialogs usage
+                    findNavController().popBackStack()
+                }
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -99,34 +125,6 @@ class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
         )
         takenPicture = NewFoodEntryViewModel.TakenPicture(photoFileUri, name)
         takePictureLauncher.launch(takenPicture?.uri)
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        viewModel.allImages.observe(viewLifecycleOwner) { images ->
-            loadImagePreviews(images)
-        }
-
-        viewModel.saveResult.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                NewFoodEntryViewModel.SaveResult.DateTimeEmptyError -> {
-                    binding.dateTimeRequiredErroTextView.visibility = View.VISIBLE
-                }
-                NewFoodEntryViewModel.SaveResult.IngredientsEmptyError -> {
-                    binding.ingredientsTextInputLayout.error =
-                        getString(R.string.ingredients_required)
-                }
-                NewFoodEntryViewModel.SaveResult.Success -> {
-                    if (BuildConfig.DEBUG) {
-                        Toast.makeText(requireContext(), "Successful save", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    // TODO: Success dialog before going back just to have some dialogs usage
-                    findNavController().popBackStack()
-                }
-            }
-        }
     }
 
     private fun loadImagePreviews(images: List<SavedImage>) {
@@ -174,7 +172,7 @@ class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
                     R.id.action_save -> {
                         val symptoms = binding.symptomsEditText.text.toString()
                         val ingredients = binding.ingredientsEditText.text.toString()
-                        val id = args.foodEntry?.foodEntryId ?: 0
+                        val id = args.foodEntry?.foodEntryId ?: 0L
                         viewModel.submitForm(FoodEntry(ingredients, dateAndTime, symptoms, id))
                         true
                     }

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.dev.tiagosutter.foodtracker.database.FoodEntryDao
 import br.dev.tiagosutter.foodtracker.entities.FoodEntry
+import br.dev.tiagosutter.foodtracker.entities.FoodEntryWithImages
 import br.dev.tiagosutter.foodtracker.entities.SavedImage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -44,7 +45,14 @@ class NewFoodEntryViewModel @Inject constructor(private val dao: FoodEntryDao) :
             return
         }
         viewModelScope.launch {
-            dao.upsertFoodEntry(foodEntry)
+            val imagesToAdd = takenPictures.map {
+                SavedImage(it.name, foodEntry.foodEntryId)
+            }
+            val foodEntryWithImages = FoodEntryWithImages(
+                foodEntry,
+                imagesToAdd
+            )
+            dao.insertFoodEntryWithImages(foodEntryWithImages)
             _saveResult.value = SaveResult.Success
         }
     }
@@ -56,7 +64,7 @@ class NewFoodEntryViewModel @Inject constructor(private val dao: FoodEntryDao) :
         _allImages.value = currentImages + savedImage
     }
 
-    fun loadImages(foodEntryId: Int) {
+    fun loadImages(foodEntryId: Long) {
         viewModelScope.launch {
             dao.getFoodEntryWithImagesById(foodEntryId).collect { foodEntryWithImages ->
                 _allImages.value = foodEntryWithImages.images

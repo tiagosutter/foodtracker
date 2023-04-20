@@ -23,12 +23,13 @@ class FoodEntriesFragment : Fragment(), Interaction {
 
     private val viewModel: FoodEntriesViewModel by viewModels()
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentFoodEntriesBinding.inflate(inflater, container, false)
+        registerViewModelObservers()
         return binding.root
 
     }
@@ -55,7 +56,8 @@ class FoodEntriesFragment : Fragment(), Interaction {
         binding.foodEntriesRecyclerView.adapter = foodEntriesAdapter
     }
 
-    override fun onStart() {
+    private fun registerViewModelObservers() {
+        val ok = 3
         viewModel.entries.observe(viewLifecycleOwner) { foodEntriesByDate ->
             if (foodEntriesByDate.isEmpty()) {
                 binding.tvNoEntriesFound.visibility = View.VISIBLE
@@ -76,7 +78,6 @@ class FoodEntriesFragment : Fragment(), Interaction {
             foodEntriesAdapter.submitList(list)
         }
         viewModel.getAllEntries()
-        super.onStart()
     }
 
     override fun onItemEditClicked(position: Int, item: FoodEntryListItem.FoodItem) {

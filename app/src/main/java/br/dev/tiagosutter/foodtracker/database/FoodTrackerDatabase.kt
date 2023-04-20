@@ -6,6 +6,8 @@ import androidx.room.RoomDatabase
 import br.dev.tiagosutter.foodtracker.entities.FoodEntry
 import br.dev.tiagosutter.foodtracker.entities.SavedImage
 
+
+
 @Database(
     version = 2,
     entities = [FoodEntry::class, SavedImage::class],

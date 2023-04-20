@@ -3,6 +3,7 @@ package br.dev.tiagosutter.foodtracker.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
+import java.util.*
 
 private const val dateEndIndex = 10
 
@@ -14,7 +15,7 @@ data class FoodEntry(
     val dateAndTime: String,
     val symptoms: String,
     @PrimaryKey(autoGenerate = true)
-    val foodEntryId: Int = 0
+    val foodEntryId: Long = 0L
 ) : Serializable {
     fun getDateYearMonthDay() = dateAndTime.substring(0, dateEndIndex)
     fun getTimeOfDay() = dateAndTime.substring(dateEndIndex+1)

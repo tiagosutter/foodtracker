@@ -8,7 +8,7 @@ data class FoodEntryWithImages(
     val foodEntry: FoodEntry,
     @Relation(
         parentColumn = "foodEntryId",
-        entityColumn = "savedImageId"
+        entityColumn = "parentFoodEntryId"
     )
     val images: List<SavedImage>
 )

@@ -1,5 +1,6 @@
 package br.dev.tiagosutter.foodtracker.entities
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -9,15 +10,14 @@ import androidx.room.PrimaryKey
     foreignKeys = [ForeignKey(
         entity = FoodEntry::class,
         parentColumns = arrayOf("foodEntryId"),
-        childColumns = arrayOf("savedImageId"),
+        childColumns = arrayOf("parentFoodEntryId"),
         onDelete = ForeignKey.CASCADE
     )]
 )
 data class SavedImage(
     val name: String,
-    val foodEntryId: Int,
+    @ColumnInfo(index = true)
+    var parentFoodEntryId: Long,
     @PrimaryKey(autoGenerate = true)
-    val savedImageId: Int = 0
-) {
-    fun isAlreadySaved(): Boolean = savedImageId != 0
-}
+    val savedImageId: Long = 0
+)

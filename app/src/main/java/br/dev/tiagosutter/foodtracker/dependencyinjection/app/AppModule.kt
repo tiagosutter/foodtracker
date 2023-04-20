@@ -29,6 +29,7 @@ class AppModule {
             databaseBuilder.setQueryCallback(object : RoomDatabase.QueryCallback {
                 override fun onQuery(sqlQuery: String, bindArgs: List<Any?>) {
                     Log.d("FoodTrackerDatabase", "QueryCallback:: $sqlQuery")
+                    Log.d("FoodTrackerDatabase", "QueryCallback:: args $bindArgs")
                 }
             }, Executors.newSingleThreadExecutor())
         }
