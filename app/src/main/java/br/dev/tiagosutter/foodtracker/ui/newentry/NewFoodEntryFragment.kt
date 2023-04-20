@@ -2,7 +2,6 @@ package br.dev.tiagosutter.foodtracker.ui.newentry
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -19,6 +18,7 @@ import br.dev.tiagosutter.foodtracker.BuildConfig
 import br.dev.tiagosutter.foodtracker.R
 import br.dev.tiagosutter.foodtracker.databinding.FragmentNewFoodEntryBinding
 import br.dev.tiagosutter.foodtracker.entities.FoodEntry
+import br.dev.tiagosutter.foodtracker.entities.SavedImage
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.time.LocalDate
@@ -33,7 +33,7 @@ class NewFoodEntryFragment : Fragment() {
     private var date: LocalDate? = null
     private var _binding: FragmentNewFoodEntryBinding? = null
     private val binding get() = _binding!!
-    private var takenPicture: TakenPicture? = null
+    private var takenPicture: NewFoodEntryViewModel.TakenPicture? = null
 
     val args: NewFoodEntryFragmentArgs by navArgs()
 
@@ -45,11 +45,6 @@ class NewFoodEntryFragment : Fragment() {
                 ""
             }
         }
-
-    data class TakenPicture(
-        val uri: Uri,
-        val name: String
-    )
 
     private val viewModel: NewFoodEntryViewModel by viewModels()
 
@@ -65,17 +60,20 @@ class NewFoodEntryFragment : Fragment() {
 
     }
 
+    private val attachedImagesAdapter = AttachedImagesAdapter()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         handleArgs()
         setupDataInput()
         setupTimeInput()
         setupIngredientsTextListener()
+        binding.attachedImagesRecyclerView.adapter = attachedImagesAdapter
 
         val takePicture =
             registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
                 if (success) {
-                    // TODO: Handle the picture that has been taken
+                    takenPicture?.let { viewModel.pictureTaken(it) }
                 }
             }
 
@@ -91,7 +89,7 @@ class NewFoodEntryFragment : Fragment() {
                 "br.dev.tiagosutter.foodtracker.provider",
                 photoFile
             )
-            takenPicture = TakenPicture(photoFileUri, name)
+            takenPicture = NewFoodEntryViewModel.TakenPicture(photoFileUri, name)
             takePicture.launch(takenPicture?.uri)
         }
 
@@ -100,6 +98,11 @@ class NewFoodEntryFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        viewModel.allImages.observe(viewLifecycleOwner) { images ->
+            loadImagePreviews(images)
+        }
+
         viewModel.saveResult.observe(viewLifecycleOwner) { result ->
             when (result) {
                 NewFoodEntryViewModel.SaveResult.DateTimeEmptyError -> {
@@ -121,6 +124,12 @@ class NewFoodEntryFragment : Fragment() {
         }
     }
 
+    private fun loadImagePreviews(images: List<SavedImage>) {
+        binding.attachImageAction.visibility = View.INVISIBLE
+        binding.attachedImagesRecyclerView.visibility = View.VISIBLE
+        attachedImagesAdapter.submitList(images)
+    }
+
     private fun handleArgs() {
         val foodEntry = args.foodEntry
         val initialDate = args.initialDate
@@ -135,6 +144,7 @@ class NewFoodEntryFragment : Fragment() {
 
             binding.ingredientsEditText.setText(foodEntry.ingredients)
             binding.symptomsEditText.setText(foodEntry.symptoms)
+            viewModel.loadImages(foodEntry.foodEntryId)
         } else if (initialDate.isNotEmpty()) {
             date = LocalDate.parse(initialDate)
             binding.dateInput.text = localizedDateFormatter.format(date)
