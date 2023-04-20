@@ -14,22 +14,18 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import java.io.File
 
+private val diffCallback = object : DiffUtil.ItemCallback<SavedImage>() {
+    override fun areItemsTheSame(oldItem: SavedImage, newItem: SavedImage): Boolean =
+        oldItem.savedImageId == newItem.savedImageId
+
+    override fun areContentsTheSame(oldItem: SavedImage, newItem: SavedImage): Boolean =
+        oldItem == newItem
+}
+
 class AttachedImagesAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SavedImage>() {
-
-        override fun areItemsTheSame(oldItem: SavedImage, newItem: SavedImage): Boolean {
-            TODO("not implemented")
-        }
-
-        override fun areContentsTheSame(oldItem: SavedImage, newItem: SavedImage): Boolean {
-            TODO("not implemented")
-        }
-
-    }
-    private val differ = AsyncListDiffer(this, DIFF_CALLBACK)
-
+    private val differ = AsyncListDiffer(this, diffCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -43,7 +39,7 @@ class AttachedImagesAdapter(private val interaction: Interaction? = null) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is AttachedImagesViewHolder -> {
-                holder.bind(differ.currentList.get(position))
+                holder.bind(differ.currentList[position])
             }
         }
     }
@@ -69,7 +65,8 @@ class AttachedImagesAdapter(private val interaction: Interaction? = null) :
             }
             val filesDir = File(context.filesDir, "images")
             val image = File(filesDir, item.name)
-            val radius = context.resources.getDimensionPixelSize(R.dimen.attached_image_corner_radius)
+            val radius =
+                context.resources.getDimensionPixelSize(R.dimen.attached_image_corner_radius)
 
             Glide.with(context)
                 .load(image.path)
