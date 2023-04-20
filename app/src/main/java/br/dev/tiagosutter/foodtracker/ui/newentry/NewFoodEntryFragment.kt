@@ -128,6 +128,7 @@ class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
     }
 
     private fun loadImagePreviews(images: List<SavedImage>) {
+        if (images.isEmpty()) return
         binding.attachImageAction.visibility = View.INVISIBLE
         binding.attachedImagesRecyclerView.visibility = View.VISIBLE
         attachedImagesAdapter.submitList(images)
