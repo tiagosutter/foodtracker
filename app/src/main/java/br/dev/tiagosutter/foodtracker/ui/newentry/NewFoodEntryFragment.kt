@@ -1,10 +1,12 @@
 package br.dev.tiagosutter.foodtracker.ui.newentry
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.core.view.MenuHost
@@ -25,6 +27,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
+
 
 @AndroidEntryPoint
 class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
@@ -63,11 +66,40 @@ class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
         savedInstanceState: Bundle?
     ): View {
 
+        setupBackPressHandler()
         setupMenuClickListener()
         setupViewModelObservers()
         _binding = FragmentNewFoodEntryBinding.inflate(inflater, container, false)
         return binding.root
 
+    }
+
+    private fun setupBackPressHandler() {
+        val backPressedDispatcher = requireActivity().onBackPressedDispatcher
+        val callback = backPressedDispatcher.addCallback(viewLifecycleOwner) {
+
+            if(getFoodEntryFromForm() != args.foodEntry || viewModel.hasNewPictures()) {
+                showConfirmationDialog()
+            } else {
+                isEnabled = false
+                backPressedDispatcher.onBackPressed()
+            }
+        }
+        backPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
+    private fun showConfirmationDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+            .setTitle(R.string.exit_without_saving)
+            .setMessage(R.string.you_made_changes)
+            .setPositiveButton(R.string.exit_without_saving) { dialog, _ ->
+                findNavController().popBackStack()
+                dialog.dismiss()
+            }
+            .setNegativeButton(R.string.continue_editing) { dialog, _ ->
+                dialog.dismiss()
+            }
+        builder.show()
     }
 
     private fun setupViewModelObservers() {
@@ -171,16 +203,21 @@ class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.action_save -> {
-                        val symptoms = binding.symptomsEditText.text.toString()
-                        val ingredients = binding.ingredientsEditText.text.toString()
-                        val id = args.foodEntry?.foodEntryId ?: 0L
-                        viewModel.submitForm(FoodEntry(ingredients, dateAndTime, symptoms, id))
+                        val foodEntry = getFoodEntryFromForm()
+                        viewModel.submitForm(foodEntry)
                         true
                     }
                     else -> false
                 }
             }
         }, viewLifecycleOwner)
+    }
+
+    private fun getFoodEntryFromForm(): FoodEntry {
+        val symptoms = binding.symptomsEditText.text.toString()
+        val ingredients = binding.ingredientsEditText.text.toString()
+        val id = args.foodEntry?.foodEntryId ?: 0L
+        return FoodEntry(ingredients, dateAndTime, symptoms, id)
     }
 
     private fun setupTimeInput() {

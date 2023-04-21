@@ -23,4 +23,7 @@
     <string name="add_more_images">Add more</string>
     <string name="notification_title">Don\'t forget about the food diary</string>
     <string name="notification_body">Don\'t forget to register what you ate</string>
+    <string name="you_made_changes">You made changes, are you sure you want to exit without saving</string>
+    <string name="exit_without_saving">Exit without saving</string>
+    <string name="continue_editing">Continue</string>
 </resources>

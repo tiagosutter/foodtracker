@@ -22,4 +22,7 @@
     <string name="add_more_images">Adicionar mais</string>
     <string name="notification_title">Não esqueça do diário alimentar</string>
     <string name="notification_body">Não deixe de registrar sua alimentação</string>
+    <string name="you_made_changes">Vocês fez mudanças, deseja sair mesmo assim?</string>
+    <string name="continue_editing">Continuar editando</string>
+    <string name="exit_without_saving">Sair sem salvar</string>
 </resources>

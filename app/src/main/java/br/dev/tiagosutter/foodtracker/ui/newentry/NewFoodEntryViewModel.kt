@@ -86,4 +86,6 @@ class NewFoodEntryViewModel @Inject constructor(private val dao: FoodEntryDao) :
         }
         return valid
     }
+
+    fun hasNewPictures(): Boolean = takenPictures.isNotEmpty()
 }
