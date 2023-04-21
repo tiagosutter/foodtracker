@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
     id 'androidx.navigation.safeargs'
+    id 'com.google.firebase.appdistribution'
 }
 
 android {
@@ -26,11 +27,30 @@ android {
         }
     }
 
+    signingConfigs {
+        releaseSignConfig {
+            storeFile file(System.getenv("FOODTRACKER_KEYSTORE_FILE") ?: " ")
+            storePassword System.getenv("FOODTRACKER_KEYSTORE_PWD")
+            keyAlias System.getenv("FOODTRACKER_KEY_ALIAS")
+            keyPassword System.getenv("FOODTRACKER_KEY_PWD")
+        }
+    }
+
+
     buildTypes {
         release {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseSignConfig
+
+
+            firebaseAppDistribution {
+                serviceCredentialsFile=System.getenv("FOODTRACKER_FIREBASE_SERVICE_CREDENTIALS_FILE" ?: " ")
+                appId = "1:80023153180:android:e877ad6cc5df0738b6cdd9"
+                releaseNotesFile = "app/releaseNotes.txt"
+                groups = "developers, qa-team"
+            }
         }
     }
     compileOptions {

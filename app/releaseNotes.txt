@@ -1,0 +1,2 @@
+- Resolve notificações frequência mais alta do que deveria.
+- Adicionar pop-up de confirmação ao sair sem salvar.
