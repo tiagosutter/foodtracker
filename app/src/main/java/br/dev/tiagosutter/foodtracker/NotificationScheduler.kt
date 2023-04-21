@@ -30,7 +30,7 @@ class NotificationScheduler(
         val pendingIntent = PendingIntent.getBroadcast(activity, 1, intent, flags)
         alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
-            AlarmManager.INTERVAL_HALF_HOUR,
+            AlarmManager.INTERVAL_HALF_DAY,
             AlarmManager.INTERVAL_HALF_DAY,
             pendingIntent
         )

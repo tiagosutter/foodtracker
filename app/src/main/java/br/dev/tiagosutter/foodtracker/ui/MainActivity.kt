@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         val navController = navHostFragment.navController
 
-
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.FoodEntriesListFragment -> {
@@ -65,15 +64,12 @@ class MainActivity : AppCompatActivity() {
                 .actionFoodEntriesListFragmentToNewFoodEntryFragment(null, "")
             navController.navigate(action)
         }
-    }
 
-    override fun onStart() {
         if (!hasNotificationPermission() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             requestNotificationPermission()
         } else {
             notificationScheduler.schedule()
         }
-        super.onStart()
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
