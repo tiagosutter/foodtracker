@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
 import androidx.core.app.NotificationManagerCompat
+import br.dev.tiagosutter.foodtracker.logging.setupTimber
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
@@ -20,6 +21,8 @@ class FoodTrackerApplication : Application() {
                 NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
             notificationManagerCompat.createNotificationChannel(channel)
         }
+
+        setupTimber()
 
         super.onCreate()
     }

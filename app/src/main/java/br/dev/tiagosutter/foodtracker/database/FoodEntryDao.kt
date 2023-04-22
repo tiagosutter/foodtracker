@@ -5,6 +5,7 @@ import androidx.room.*
 import br.dev.tiagosutter.foodtracker.entities.FoodEntry
 import br.dev.tiagosutter.foodtracker.entities.FoodEntryWithImages
 import kotlinx.coroutines.flow.Flow
+import timber.log.Timber
 import java.util.*
 
 @Dao
@@ -28,7 +29,6 @@ abstract class FoodEntryDao(database: FoodTrackerDatabase) {
     @Transaction
     open suspend fun insertFoodEntryWithImages(foodEntyWithImages: FoodEntryWithImages) {
         val upsertedFoodEntryId = upsertFoodEntry(foodEntyWithImages.foodEntry)
-        Log.d("FoodEntryDao", "insertFoodEntryWithImages: $upsertedFoodEntryId")
         if (upsertedFoodEntryId != -1L) {
             for (image in foodEntyWithImages.images) {
                 image.parentFoodEntryId = upsertedFoodEntryId

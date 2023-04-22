@@ -17,6 +17,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import timber.log.Timber
 import java.util.concurrent.Executors
 
 @Module
@@ -43,8 +44,8 @@ class AppModule {
         if (BuildConfig.DEBUG) {
             databaseBuilder.setQueryCallback(object : RoomDatabase.QueryCallback {
                 override fun onQuery(sqlQuery: String, bindArgs: List<Any?>) {
-                    Log.d("FoodTrackerDatabase", "QueryCallback:: $sqlQuery")
-                    Log.d("FoodTrackerDatabase", "QueryCallback:: args $bindArgs")
+                    Timber.tag("FoodTrackerDatabase").d("QueryCallback:: %s", sqlQuery)
+                    Timber.tag("FoodTrackerDatabase").d("QueryCallback:: args %s", bindArgs)
                 }
             }, Executors.newSingleThreadExecutor())
         }
