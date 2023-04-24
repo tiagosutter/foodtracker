@@ -9,24 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import br.dev.tiagosutter.foodtracker.R
 import br.dev.tiagosutter.foodtracker.databinding.ItemFoodEntryBinding
 import br.dev.tiagosutter.foodtracker.databinding.ItemFoodEntryDateSeparatorBinding
-import br.dev.tiagosutter.foodtracker.entities.FoodEntry
-import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-
-sealed class FoodEntryListItem {
-
-    val id: String
-        get() {
-            return when (this) {
-                is DateEntry -> this.date.toString()
-                is FoodItem -> this.foodEntry.foodEntryId.toString()
-            }
-        }
-
-    data class DateEntry(val date: LocalDate) : FoodEntryListItem()
-    data class FoodItem(val foodEntry: FoodEntry) : FoodEntryListItem()
-}
 
 class FoodEntriesAdapter(private val interaction: Interaction) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -36,11 +20,11 @@ class FoodEntriesAdapter(private val interaction: Interaction) :
         private const val VIEW_TYPE_FOOD_ITEM_ENTRY = 1
     }
 
-    private val diffCallback = object : DiffUtil.ItemCallback<FoodEntryListItem>() {
+    private val diffCallback = object : DiffUtil.ItemCallback<FoodEntryListItemsViewState>() {
 
         override fun areItemsTheSame(
-            oldItem: FoodEntryListItem,
-            newItem: FoodEntryListItem
+            oldItem: FoodEntryListItemsViewState,
+            newItem: FoodEntryListItemsViewState
         ): Boolean {
             if (oldItem::class != newItem::class)
                 return false
@@ -48,8 +32,8 @@ class FoodEntriesAdapter(private val interaction: Interaction) :
         }
 
         override fun areContentsTheSame(
-            oldItem: FoodEntryListItem,
-            newItem: FoodEntryListItem
+            oldItem: FoodEntryListItemsViewState,
+            newItem: FoodEntryListItemsViewState
         ): Boolean {
             if (oldItem::class != newItem::class)
                 return false
@@ -62,8 +46,8 @@ class FoodEntriesAdapter(private val interaction: Interaction) :
 
     override fun getItemViewType(position: Int): Int {
         return when (differ.currentList[position]) {
-            is FoodEntryListItem.DateEntry -> VIEW_TYPE_DATETIME_ENTRY
-            is FoodEntryListItem.FoodItem -> VIEW_TYPE_FOOD_ITEM_ENTRY
+            is FoodEntryListItemsViewState.DateEntry -> VIEW_TYPE_DATETIME_ENTRY
+            is FoodEntryListItemsViewState.FoodItem -> VIEW_TYPE_FOOD_ITEM_ENTRY
         }
     }
 
@@ -97,10 +81,10 @@ class FoodEntriesAdapter(private val interaction: Interaction) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is FoodItemViewHolder -> {
-                holder.bind(differ.currentList[position] as FoodEntryListItem.FoodItem)
+                holder.bind(differ.currentList[position] as FoodEntryListItemsViewState.FoodItem)
             }
             is DateViewHolder -> {
-                holder.bind(differ.currentList[position] as FoodEntryListItem.DateEntry)
+                holder.bind(differ.currentList[position] as FoodEntryListItemsViewState.DateEntry)
             }
         }
     }
@@ -109,7 +93,7 @@ class FoodEntriesAdapter(private val interaction: Interaction) :
         return differ.currentList.size
     }
 
-    fun submitList(list: List<FoodEntryListItem>) {
+    fun submitList(list: List<FoodEntryListItemsViewState>) {
         differ.submitList(list)
     }
 }
@@ -120,7 +104,7 @@ class FoodItemViewHolder(
 ) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: FoodEntryListItem.FoodItem) {
+    fun bind(item: FoodEntryListItemsViewState.FoodItem) {
         binding.itemFoodEntryIngredients.text = item.foodEntry.ingredients
         binding.editEntryImageView.setOnClickListener {
             interaction.onItemEditClicked(adapterPosition, item)
@@ -151,7 +135,7 @@ class DateViewHolder(
 ) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: FoodEntryListItem.DateEntry) {
+    fun bind(item: FoodEntryListItemsViewState.DateEntry) {
         val localizedDateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
         val date = localizedDateFormatter.format(item.date)
         binding.itemFoodEntrySeparatorText.text = date
@@ -162,6 +146,6 @@ class DateViewHolder(
 }
 
 interface Interaction {
-    fun onItemEditClicked(position: Int, item: FoodEntryListItem.FoodItem)
-    fun onAddItemToDateClicked(position: Int, item: FoodEntryListItem.DateEntry)
+    fun onItemEditClicked(position: Int, item: FoodEntryListItemsViewState.FoodItem)
+    fun onAddItemToDateClicked(position: Int, item: FoodEntryListItemsViewState.DateEntry)
 }

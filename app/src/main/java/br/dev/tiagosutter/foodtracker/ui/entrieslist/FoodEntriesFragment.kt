@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import br.dev.tiagosutter.foodtracker.databinding.FragmentFoodEntriesBinding
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 
 @AndroidEntryPoint
 class FoodEntriesFragment : Fragment(), Interaction {
@@ -46,7 +44,7 @@ class FoodEntriesFragment : Fragment(), Interaction {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val foodEntryListItem = foodEntriesAdapter.differ.currentList[position]
-                if (foodEntryListItem is FoodEntryListItem.FoodItem) {
+                if (foodEntryListItem is FoodEntryListItemsViewState.FoodItem) {
                     viewModel.deleteEntry(foodEntryListItem.foodEntry)
                 }
             }
@@ -57,36 +55,22 @@ class FoodEntriesFragment : Fragment(), Interaction {
     }
 
     private fun registerViewModelObservers() {
-        val ok = 3
-        viewModel.entries.observe(viewLifecycleOwner) { foodEntriesByDate ->
-            if (foodEntriesByDate.isEmpty()) {
-                binding.tvNoEntriesFound.visibility = View.VISIBLE
-            } else {
-                binding.tvNoEntriesFound.visibility = View.GONE
-            }
-            // TODO: ViewModel should directly handle mapping to ui models, and ui should not deal with mapping
-            val list: MutableList<FoodEntryListItem> = mutableListOf()
-            for (entry in foodEntriesByDate) {
-
-                val dateTimeSeparator = FoodEntryListItem.DateEntry(entry.date)
-                val foodEntries = entry.entries.map {
-                    FoodEntryListItem.FoodItem(it)
-                }
-                list.add(dateTimeSeparator)
-                list.addAll(foodEntries)
-            }
-            foodEntriesAdapter.submitList(list)
+        viewModel.viewState.observe(viewLifecycleOwner) { viewState ->
+            foodEntriesAdapter.submitList(viewState.entriesByDate)
         }
         viewModel.getAllEntries()
     }
 
-    override fun onItemEditClicked(position: Int, item: FoodEntryListItem.FoodItem) {
+    override fun onItemEditClicked(position: Int, item: FoodEntryListItemsViewState.FoodItem) {
         val action = FoodEntriesFragmentDirections
             .actionFoodEntriesListFragmentToNewFoodEntryFragment(item.foodEntry, "")
         findNavController().navigate(action)
     }
 
-    override fun onAddItemToDateClicked(position: Int, item: FoodEntryListItem.DateEntry) {
+    override fun onAddItemToDateClicked(
+        position: Int,
+        item: FoodEntryListItemsViewState.DateEntry
+    ) {
         val action = FoodEntriesFragmentDirections
             .actionFoodEntriesListFragmentToNewFoodEntryFragment(null, item.date.toString())
         findNavController().navigate(action)
