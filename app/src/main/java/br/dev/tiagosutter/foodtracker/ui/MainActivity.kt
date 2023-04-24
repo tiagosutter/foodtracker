@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.FoodEntriesListFragment -> {
                     supportActionBar?.hide()
+                    binding.fab.isEnabled = true
                     binding.fab.show()
                 }
                 else -> {
@@ -64,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.fab.setOnClickListener {
+            it.isEnabled = false
             val action = FoodEntriesFragmentDirections
                 .actionFoodEntriesListFragmentToNewFoodEntryFragment(null, "")
             navController.navigate(action)
