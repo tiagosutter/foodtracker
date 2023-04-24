@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.dev.tiagosutter.foodtracker.database.FoodEntryDao
 import br.dev.tiagosutter.foodtracker.entities.FoodEntry
+import br.dev.tiagosutter.foodtracker.entities.FoodEntryWithImages
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -48,16 +49,28 @@ class FoodEntriesViewModel @Inject constructor(private val dao: FoodEntryDao) : 
     }
 
     private fun mapToEntriesByDate(entries: List<FoodEntry>) =
-        entries
-            .groupBy { it.getDateYearMonthDay() }
-            .map {
-                FoodEntriesByDate(LocalDate.parse(it.key), it.value)
-            }
+        entries.groupBy { it.getDateYearMonthDay() }
+            .map { FoodEntriesByDate(LocalDate.parse(it.key), it.value) }
+
+    private var mostRecentDeletion: FoodEntryWithImages? = null
 
     fun deleteEntry(foodEntry: FoodEntry) {
         viewModelScope.launch {
-            dao.deleteFoodEntry(foodEntry)
+            registerAndDelete(foodEntry)
         }
     }
 
+    private suspend fun registerAndDelete(foodEntry: FoodEntry) {
+        val foodEntryWithImages = dao.getFoodEntryWithImagesById(foodEntry.foodEntryId)
+        mostRecentDeletion = foodEntryWithImages
+        dao.deleteFoodEntry(foodEntry)
+    }
+
+    fun undoLatestDeletion() {
+        viewModelScope.launch {
+            mostRecentDeletion?.let { nonNullFoodEntryWithImages ->
+                dao.insertFoodEntryWithImages(nonNullFoodEntryWithImages)
+            }
+        }
+    }
 }

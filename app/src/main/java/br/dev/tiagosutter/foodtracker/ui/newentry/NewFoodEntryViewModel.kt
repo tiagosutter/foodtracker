@@ -66,9 +66,10 @@ class NewFoodEntryViewModel @Inject constructor(private val dao: FoodEntryDao) :
 
     fun loadImages(foodEntryId: Long) {
         viewModelScope.launch {
-            dao.getFoodEntryWithImagesById(foodEntryId).collect { foodEntryWithImages ->
-                _allImages.value = foodEntryWithImages.images
-            }
+
+            val foodEntryWithImagesById = dao.getFoodEntryWithImagesById(foodEntryId)
+            _allImages.value = foodEntryWithImagesById.images
+
         }
     }
 

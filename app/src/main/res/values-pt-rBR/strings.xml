@@ -25,4 +25,6 @@
     <string name="you_made_changes">Vocês fez mudanças, deseja sair mesmo assim?</string>
     <string name="continue_editing">Continuar editando</string>
     <string name="exit_without_saving">Sair sem salvar</string>
+    <string name="deleted">Item removido</string>
+    <string name="undo_deletion">Desfazer</string>
 </resources>

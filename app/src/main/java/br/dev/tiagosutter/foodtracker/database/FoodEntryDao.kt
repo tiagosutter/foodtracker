@@ -1,11 +1,9 @@
 package br.dev.tiagosutter.foodtracker.database
 
-import android.util.Log
 import androidx.room.*
 import br.dev.tiagosutter.foodtracker.entities.FoodEntry
 import br.dev.tiagosutter.foodtracker.entities.FoodEntryWithImages
 import kotlinx.coroutines.flow.Flow
-import timber.log.Timber
 import java.util.*
 
 @Dao
@@ -39,5 +37,5 @@ abstract class FoodEntryDao(database: FoodTrackerDatabase) {
 
     @Transaction
     @Query("SELECT * FROM food_entry WHERE foodEntryId = :id")
-    abstract fun getFoodEntryWithImagesById(id: Long): Flow<FoodEntryWithImages>
+    abstract suspend fun getFoodEntryWithImagesById(id: Long): FoodEntryWithImages
 }

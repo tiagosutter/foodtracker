@@ -9,7 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import br.dev.tiagosutter.foodtracker.R
 import br.dev.tiagosutter.foodtracker.databinding.FragmentFoodEntriesBinding
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -46,6 +48,12 @@ class FoodEntriesFragment : Fragment(), Interaction {
                 val foodEntryListItem = foodEntriesAdapter.differ.currentList[position]
                 if (foodEntryListItem is FoodEntryListItemsViewState.FoodItem) {
                     viewModel.deleteEntry(foodEntryListItem.foodEntry)
+                    val snackbar = Snackbar.make(binding.root, R.string.deleted, Snackbar.LENGTH_LONG)
+                    snackbar.setAction(R.string.undo_deletion) {
+                        viewModel.undoLatestDeletion()
+                    }
+                    snackbar.show()
+
                 }
             }
         }

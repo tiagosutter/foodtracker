@@ -26,4 +26,6 @@
     <string name="you_made_changes">You made changes, are you sure you want to exit without saving</string>
     <string name="exit_without_saving">Exit without saving</string>
     <string name="continue_editing">Continue</string>
+    <string name="deleted">Item deleted</string>
+    <string name="undo_deletion">Undo</string>
 </resources>
