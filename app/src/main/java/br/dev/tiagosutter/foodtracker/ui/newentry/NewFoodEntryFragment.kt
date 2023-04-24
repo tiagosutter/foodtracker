@@ -21,12 +21,15 @@ import br.dev.tiagosutter.foodtracker.R
 import br.dev.tiagosutter.foodtracker.databinding.FragmentNewFoodEntryBinding
 import br.dev.tiagosutter.foodtracker.entities.FoodEntry
 import br.dev.tiagosutter.foodtracker.entities.SavedImage
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.logEvent
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -38,9 +41,12 @@ class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
     private val binding get() = _binding!!
     private var takenPicture: NewFoodEntryViewModel.TakenPicture? = null
 
+    @Inject
+    lateinit var analytics: FirebaseAnalytics
+
     val args: NewFoodEntryFragmentArgs by navArgs()
 
-    val dateAndTime: String
+    private val dateAndTime: String
         get() {
             return if (date != null && timeOfDay != null) {
                 "${date}T${timeOfDay}"
@@ -78,7 +84,7 @@ class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
         val backPressedDispatcher = requireActivity().onBackPressedDispatcher
         val callback = backPressedDispatcher.addCallback(viewLifecycleOwner) {
 
-            if(getFoodEntryFromForm() != args.foodEntry || viewModel.hasNewPictures()) {
+            if (getFoodEntryFromForm() != args.foodEntry || viewModel.hasNewPictures()) {
                 showConfirmationDialog()
             } else {
                 isEnabled = false
@@ -204,6 +210,7 @@ class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
                 return when (menuItem.itemId) {
                     R.id.action_save -> {
                         val foodEntry = getFoodEntryFromForm()
+                        logSaveFoodEntryEvent(foodEntry)
                         viewModel.submitForm(foodEntry)
                         true
                     }
@@ -211,6 +218,18 @@ class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
                 }
             }
         }, viewLifecycleOwner)
+    }
+
+    private fun logSaveFoodEntryEvent(
+        foodEntry: FoodEntry
+    ) {
+        val sameDate = foodEntry.getDateYearMonthDay() == LocalDate.now().toString()
+        analytics.logEvent("save_food_entry") {
+            param("photos_quantity", viewModel.getImagesQuantity().toLong())
+            param("ingredients_text_len", foodEntry.ingredients.length.toLong())
+            param("symptoms_text_len", foodEntry.symptoms.length.toLong())
+            param("is_same_date", sameDate.toString())
+        }
     }
 
     private fun getFoodEntryFromForm(): FoodEntry {

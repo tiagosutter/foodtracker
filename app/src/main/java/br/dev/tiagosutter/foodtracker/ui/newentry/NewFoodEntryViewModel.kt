@@ -57,6 +57,10 @@ class NewFoodEntryViewModel @Inject constructor(private val dao: FoodEntryDao) :
         }
     }
 
+    fun getImagesQuantity(): Int {
+        return allImages.value?.size ?: 0
+    }
+
     fun pictureTaken(takenPicture: TakenPicture) {
         takenPictures.add(takenPicture)
         val savedImage = SavedImage(takenPicture.name, 0, 0)

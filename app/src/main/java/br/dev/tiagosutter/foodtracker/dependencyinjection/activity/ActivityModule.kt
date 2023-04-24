@@ -5,6 +5,7 @@ import android.app.AlarmManager
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import br.dev.tiagosutter.foodtracker.notifications.NotificationScheduler
+import com.google.firebase.analytics.FirebaseAnalytics
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +22,6 @@ class ActivityModule {
         return NotificationScheduler(activity, alarmManager)
     }
 
-
     @Provides
     fun appCompatActivity(activity: Activity): AppCompatActivity = activity as AppCompatActivity
 
@@ -30,4 +30,7 @@ class ActivityModule {
 
     @Provides
     fun fragmentManager(activity: AppCompatActivity) = activity.supportFragmentManager
+
+    @Provides
+    fun firebaseAnalytics(activity: AppCompatActivity) = FirebaseAnalytics.getInstance(activity)
 }
