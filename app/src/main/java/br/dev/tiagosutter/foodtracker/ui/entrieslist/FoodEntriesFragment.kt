@@ -50,6 +50,7 @@ class FoodEntriesFragment : Fragment(), Interaction {
                     viewModel.deleteEntry(foodEntryListItem.foodEntry)
                     val snackbar = Snackbar.make(binding.root, R.string.deleted, Snackbar.LENGTH_LONG)
                     snackbar.setAction(R.string.undo_deletion) {
+                        it.isEnabled = false
                         viewModel.undoLatestDeletion()
                     }
                     snackbar.show()
