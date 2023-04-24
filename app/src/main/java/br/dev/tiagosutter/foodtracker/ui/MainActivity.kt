@@ -13,7 +13,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
-import br.dev.tiagosutter.foodtracker.NotificationScheduler
+import br.dev.tiagosutter.foodtracker.notifications.NotificationScheduler
 import br.dev.tiagosutter.foodtracker.R
 import br.dev.tiagosutter.foodtracker.databinding.ActivityMainBinding
 import br.dev.tiagosutter.foodtracker.ui.entrieslist.FoodEntriesFragmentDirections
@@ -94,9 +94,10 @@ class MainActivity : AppCompatActivity() {
             ) { isGranted: Boolean ->
                 if (isGranted) {
                     notificationScheduler.schedule()
+
                 } else {
-                    // TODO:
-                    //  Explain to the user that the feature is unavailable because the
+                    // TODO: Create a settings screen for
+                    //  Explaining to the user that the feature is unavailable because the
                     //  feature requires a permission that the user has denied. At the
                     //  same time, respect the user's decision. Don't link to system
                     //  settings in an effort to convince the user to change their

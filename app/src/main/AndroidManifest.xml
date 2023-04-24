@@ -39,7 +39,7 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
 
-        <receiver android:name=".ScheduleNotificationBroadcastReceiver" />
+        <receiver android:name=".notifications.ScheduleNotificationBroadcastReceiver" />
     </application>
 
 </manifest>

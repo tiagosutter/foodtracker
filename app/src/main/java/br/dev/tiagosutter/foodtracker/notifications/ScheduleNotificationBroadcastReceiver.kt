@@ -1,7 +1,6 @@
-package br.dev.tiagosutter.foodtracker
+package br.dev.tiagosutter.foodtracker.notifications
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -10,6 +9,7 @@ import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import br.dev.tiagosutter.foodtracker.R
 
 class ScheduleNotificationBroadcastReceiver: BroadcastReceiver() {
 

@@ -1,16 +1,11 @@
 package br.dev.tiagosutter.foodtracker.dependencyinjection.app
 
 import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
-import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationManagerCompat
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import br.dev.tiagosutter.foodtracker.BuildConfig
-import br.dev.tiagosutter.foodtracker.NotificationScheduler
 import br.dev.tiagosutter.foodtracker.database.FoodTrackerDatabase
 import dagger.Module
 import dagger.Provides

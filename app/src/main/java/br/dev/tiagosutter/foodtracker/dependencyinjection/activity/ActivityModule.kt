@@ -4,7 +4,7 @@ import android.app.Activity
 import android.app.AlarmManager
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import br.dev.tiagosutter.foodtracker.NotificationScheduler
+import br.dev.tiagosutter.foodtracker.notifications.NotificationScheduler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

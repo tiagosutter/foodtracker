@@ -1,4 +1,4 @@
-package br.dev.tiagosutter.foodtracker
+package br.dev.tiagosutter.foodtracker.notifications
 
 import android.app.AlarmManager
 import android.app.PendingIntent

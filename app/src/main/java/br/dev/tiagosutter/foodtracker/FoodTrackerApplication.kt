@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.os.Build
 import androidx.core.app.NotificationManagerCompat
 import br.dev.tiagosutter.foodtracker.logging.setupTimber
+import br.dev.tiagosutter.foodtracker.notifications.NotificationScheduler
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
