@@ -27,4 +27,7 @@
     <string name="exit_without_saving">Sair sem salvar</string>
     <string name="deleted">Item removido</string>
     <string name="undo_deletion">Desfazer</string>
+    <string name="choose_how_to_get_image">Escolha como pegar a imagem</string>
+    <string name="gallery">Galeria</string>
+    <string name="open_camera">Tirar foto</string>
 </resources>

@@ -1,5 +1,5 @@
-- Adiciona funcionalidade desfazer ao remover item
-- Adiciona pop-up de confirmação ao sair sem salvar
-- Resolve bug de notificações muito frequentes
-- Adiciona Crashlytics e Analytics
-- Resolve crash que ocorria ao clicar várias vezes no floating action button
+- Resolve bug que permitia arrastar separador de data
+- Adiciona melhor feedback visual ao remover com swipe
+- Adiciona mais analytics
+- Adiciona LeakCanary
+- Selecionar da galeria

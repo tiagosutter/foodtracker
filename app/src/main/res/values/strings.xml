@@ -28,4 +28,7 @@
     <string name="continue_editing">Continue</string>
     <string name="deleted">Item deleted</string>
     <string name="undo_deletion">Undo</string>
+    <string name="choose_how_to_get_image">Choose how to get the image</string>
+    <string name="gallery">Gallery</string>
+    <string name="open_camera">Take new picture</string>
 </resources>

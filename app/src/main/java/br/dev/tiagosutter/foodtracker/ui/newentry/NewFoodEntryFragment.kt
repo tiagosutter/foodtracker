@@ -3,10 +3,12 @@ package br.dev.tiagosutter.foodtracker.ui.newentry
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.core.view.MenuHost
@@ -24,6 +26,9 @@ import br.dev.tiagosutter.foodtracker.entities.SavedImage
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.logEvent
 import dagger.hilt.android.AndroidEntryPoint
+import okio.buffer
+import okio.sink
+import okio.source
 import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -63,6 +68,26 @@ class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
             if (success) {
                 takenPicture?.let { viewModel.pictureTaken(it) }
+            }
+        }
+
+    private val pickPictureLauncher =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            uri?.let {
+                val filesDir = createFileDir()
+                val name = UUID.randomUUID().toString()
+                val photoFileUri = createFileToStoreImage(filesDir, name)
+                val contentResolver = requireActivity().contentResolver
+                val copy = contentResolver.openOutputStream(photoFileUri)
+                val src = contentResolver.openInputStream(uri)
+                src?.source().use { s ->
+                    if (s == null) return@use
+                    copy?.sink()?.buffer().use { c -> c?.writeAll(s) }
+                }
+                takenPicture = NewFoodEntryViewModel.TakenPicture(photoFileUri, name)
+                takenPicture?.let {
+                    viewModel.pictureTaken(it)
+                }
             }
         }
 
@@ -145,24 +170,43 @@ class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
         binding.attachedImagesRecyclerView.adapter = attachedImagesAdapter
 
         binding.attachImageAction.setOnClickListener {
-            takePicture()
+            AlertDialog.Builder(requireContext())
+                .setTitle(R.string.choose_how_to_get_image)
+                .setPositiveButton(R.string.gallery) { dialog, _ ->
+                    pickPictureLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                    dialog.dismiss()
+                }
+                .setNegativeButton(R.string.open_camera) { dialog, _ ->
+                    takePicture()
+                    dialog.dismiss()
+                }.show()
         }
     }
 
     private fun takePicture() {
-        val filesDir = File(requireContext().filesDir, "images")
-        if (!filesDir.exists()) {
-            filesDir.mkdirs()
-        }
+
+        val filesDir = createFileDir()
         val name = UUID.randomUUID().toString()
+        val photoFileUri = createFileToStoreImage(filesDir, name)
+        takenPicture = NewFoodEntryViewModel.TakenPicture(photoFileUri, name)
+        takePictureLauncher.launch(takenPicture?.uri)
+    }
+
+    private fun createFileToStoreImage(filesDir: File, name: String): Uri {
         val photoFile = File(filesDir, name)
-        val photoFileUri = FileProvider.getUriForFile(
+        return FileProvider.getUriForFile(
             requireContext(),
             "br.dev.tiagosutter.foodtracker.provider",
             photoFile
         )
-        takenPicture = NewFoodEntryViewModel.TakenPicture(photoFileUri, name)
-        takePictureLauncher.launch(takenPicture?.uri)
+    }
+
+    private fun createFileDir(): File {
+        val filesDir = File(requireContext().filesDir, "images")
+        if (!filesDir.exists()) {
+            filesDir.mkdirs()
+        }
+        return filesDir
     }
 
     private fun loadImagePreviews(images: List<SavedImage>) {
