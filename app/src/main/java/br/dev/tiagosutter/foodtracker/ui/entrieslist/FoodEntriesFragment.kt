@@ -22,7 +22,7 @@ class FoodEntriesFragment : Fragment(), Interaction {
 
     private var _binding: FragmentFoodEntriesBinding? = null
     private val binding get() = _binding!!
-    private val foodEntriesAdapter: FoodEntriesAdapter = FoodEntriesAdapter(this)
+    private lateinit var foodEntriesAdapter: FoodEntriesAdapter
 
     @Inject
     lateinit var analytics: FirebaseAnalytics
@@ -35,6 +35,7 @@ class FoodEntriesFragment : Fragment(), Interaction {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFoodEntriesBinding.inflate(inflater, container, false)
+        foodEntriesAdapter = FoodEntriesAdapter(this)
         registerViewModelObservers()
         return binding.root
 
