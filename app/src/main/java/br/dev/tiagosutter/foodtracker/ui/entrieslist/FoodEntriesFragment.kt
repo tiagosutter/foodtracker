@@ -12,7 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import br.dev.tiagosutter.foodtracker.R
 import br.dev.tiagosutter.foodtracker.databinding.FragmentFoodEntriesBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.logEvent
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class FoodEntriesFragment : Fragment(), Interaction {
@@ -20,6 +23,9 @@ class FoodEntriesFragment : Fragment(), Interaction {
     private var _binding: FragmentFoodEntriesBinding? = null
     private val binding get() = _binding!!
     private val foodEntriesAdapter: FoodEntriesAdapter = FoodEntriesAdapter(this)
+
+    @Inject
+    lateinit var analytics: FirebaseAnalytics
 
     private val viewModel: FoodEntriesViewModel by viewModels()
 
@@ -48,13 +54,14 @@ class FoodEntriesFragment : Fragment(), Interaction {
                 val foodEntryListItem = foodEntriesAdapter.differ.currentList[position]
                 if (foodEntryListItem is FoodEntryListItemsViewState.FoodItem) {
                     viewModel.deleteEntry(foodEntryListItem.foodEntry)
+                    analytics.logEvent("SWIPE_DELETE_ITEM") {}
                     val snackbar = Snackbar.make(binding.root, R.string.deleted, Snackbar.LENGTH_LONG)
                     snackbar.setAction(R.string.undo_deletion) {
+                        analytics.logEvent("UNDO_DELETE_ENTRY") {}
                         it.isEnabled = false
                         viewModel.undoLatestDeletion()
                     }
                     snackbar.show()
-
                 }
             }
         }
