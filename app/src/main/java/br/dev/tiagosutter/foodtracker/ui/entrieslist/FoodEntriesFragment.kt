@@ -101,10 +101,10 @@ class FoodEntriesFragment : Fragment(), Interaction {
                 val foodEntryListItem = foodEntriesAdapter.differ.currentList[position]
                 if (foodEntryListItem is FoodEntryListItemsViewState.FoodItem) {
                     viewModel.deleteEntry(foodEntryListItem.foodEntry)
-                    analytics.logEvent("SWIPE_DELETE_ITEM") {}
+                    analytics.logEvent("swipe_delete_item") {}
                     val snackbar = Snackbar.make(binding.root, R.string.deleted, Snackbar.LENGTH_LONG)
                     snackbar.setAction(R.string.undo_deletion) {
-                        analytics.logEvent("UNDO_DELETE_ENTRY") {}
+                        analytics.logEvent("undo_delete_entry") {}
                         it.isEnabled = false
                         viewModel.undoLatestDeletion()
                     }

@@ -173,10 +173,12 @@ class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
             AlertDialog.Builder(requireContext())
                 .setTitle(R.string.choose_how_to_get_image)
                 .setPositiveButton(R.string.gallery) { dialog, _ ->
+                    analytics.logEvent("select_from_gallery", Bundle())
                     pickPictureLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                     dialog.dismiss()
                 }
                 .setNegativeButton(R.string.open_camera) { dialog, _ ->
+                    analytics.logEvent("take_new_picture", Bundle())
                     takePicture()
                     dialog.dismiss()
                 }.show()
