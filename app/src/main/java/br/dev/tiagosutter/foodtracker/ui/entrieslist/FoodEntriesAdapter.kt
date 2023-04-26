@@ -89,6 +89,15 @@ class FoodEntriesAdapter(private val interaction: Interaction) :
         }
     }
 
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+        when (holder) {
+            is FoodItemViewHolder -> {
+                holder.binding.itemFoodEntryCard.translationX = 0F
+            }
+        }
+        super.onViewRecycled(holder)
+    }
+
     override fun getItemCount(): Int {
         return differ.currentList.size
     }
@@ -99,10 +108,12 @@ class FoodEntriesAdapter(private val interaction: Interaction) :
 }
 
 class FoodItemViewHolder(
-    private val binding: ItemFoodEntryBinding,
+    val binding: ItemFoodEntryBinding,
     private val interaction: Interaction
 ) :
     RecyclerView.ViewHolder(binding.root) {
+
+
 
     fun bind(item: FoodEntryListItemsViewState.FoodItem) {
         binding.itemFoodEntryIngredients.text = item.foodEntry.ingredients
