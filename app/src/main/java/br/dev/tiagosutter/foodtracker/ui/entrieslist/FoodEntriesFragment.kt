@@ -1,7 +1,9 @@
 package br.dev.tiagosutter.foodtracker.ui.entrieslist
 
 import android.graphics.Canvas
+import android.opengl.Visibility
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,6 +76,9 @@ class FoodEntriesFragment : Fragment(), Interaction {
                     if (viewHolder is FoodItemViewHolder) {
                         val foodItemViewHolder: FoodItemViewHolder = viewHolder
                         foodItemViewHolder.binding.itemFoodEntryCard.translationX = dX
+                        if (foodItemViewHolder.binding.deletingItemBackgroundStub.parent  != null) {
+                            foodItemViewHolder.binding.deletingItemBackgroundStub.inflate()
+                        }
                         // TODO: Create some interesting animation for the delete icon
                     }
                     return

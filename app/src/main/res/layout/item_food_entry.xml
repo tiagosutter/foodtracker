@@ -8,27 +8,16 @@
     android:paddingHorizontal="16dp"
     android:paddingVertical="8dp">
 
-    <LinearLayout
+    <ViewStub
+        android:id="@+id/deletingItemBackgroundStub"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="2dp"
-        android:background="@drawable/dashed_background"
+        android:inflatedId="@+id/deletingItemBackground"
+        android:layout="@layout/item_food_entry_deleting"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/icIconDeleteEntry"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="18dp"
-            android:importantForAccessibility="no"
-            android:src="@drawable/ic_delete"
-            app:tint="@color/danger_red_color_400" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/itemFoodEntryCard"
