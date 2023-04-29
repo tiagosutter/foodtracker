@@ -145,9 +145,10 @@ class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
                 }
                 NewFoodEntryViewModel.SaveResult.IngredientsEmptyError -> {
                     binding.ingredientsTextInputLayout.error =
-                        getString(R.string.ingredients_required)
+                        "getString(R.string.ingredients_required)"
                 }
                 NewFoodEntryViewModel.SaveResult.Success -> {
+                    logSaveFoodEntryEvent(getFoodEntryFromForm())
                     if (BuildConfig.DEBUG) {
                         Toast.makeText(requireContext(), "Successful save", Toast.LENGTH_SHORT)
                             .show()
@@ -168,6 +169,10 @@ class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
 
         attachedImagesAdapter = AttachedImagesAdapter(this)
         binding.attachedImagesRecyclerView.adapter = attachedImagesAdapter
+
+        binding.saveButton.setOnClickListener {
+            submitForm()
+        }
 
         binding.attachImageAction.setOnClickListener {
             AlertDialog.Builder(requireContext())
@@ -255,15 +260,18 @@ class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.action_save -> {
-                        val foodEntry = getFoodEntryFromForm()
-                        logSaveFoodEntryEvent(foodEntry)
-                        viewModel.submitForm(foodEntry)
+                        submitForm()
                         true
                     }
                     else -> false
                 }
             }
         }, viewLifecycleOwner)
+    }
+
+    private fun submitForm() {
+        val foodEntry = getFoodEntryFromForm()
+        viewModel.submitForm(foodEntry)
     }
 
     private fun logSaveFoodEntryEvent(
