@@ -16,3 +16,4 @@ local.properties
 /.idea/deploymentTargetDropDown.xml
 *.aab
 /.idea/dictionaries/
+/.idea/androidTestResultsUserPreferences.xml

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="br.dev.tiagosutter.foodtracker">
+
+    <application>
+        <activity
+            android:name="br.dev.tiagosutter.foodtracker.HiltTestActivity"
+            android:exported="false"  />
+    </application>
+
+</manifest>

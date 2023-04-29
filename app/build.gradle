@@ -20,7 +20,7 @@ android {
         versionCode 9
         versionName "1.6"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "br.dev.tiagosutter.foodtracker.HiltTestRunner"
 
         kapt {
             arguments {
@@ -92,13 +92,31 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+    def hilt_version = "2.44"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
-    implementation "com.google.dagger:hilt-android:2.44"
-    kapt "com.google.dagger:hilt-compiler:2.44"
 
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation 'org.mockito:mockito-android:3.5.11'
+
+    // Espresso
+    def androidx_test_espresso = "3.3.0"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_test_espresso"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidx_test_espresso"
+    implementation "androidx.test.espresso:espresso-idling-resource:$androidx_test_espresso"
+
+    // androidx.test
+    androidTestImplementation "androidx.test:runner:1.5.0"
+    androidTestImplementation "androidx.test:core-ktx:1.5.0"
+    androidTestImplementation "androidx.test.ext:junit-ktx:1.1.5"
+
+    // androidx.fragment
+    debugImplementation "androidx.fragment:fragment-testing:1.6.0-beta01"
+    debugImplementation "androidx.fragment:fragment-testing-manifest:1.6.0-beta01"
+    implementation "androidx.fragment:fragment:1.5.7"
+
+    // hilt test
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     testImplementation 'org.mockito:mockito-core:4.5.1'
     testImplementation "org.mockito.kotlin:mockito-kotlin:4.1.0"
