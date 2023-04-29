@@ -145,7 +145,7 @@ class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
                 }
                 NewFoodEntryViewModel.SaveResult.IngredientsEmptyError -> {
                     binding.ingredientsTextInputLayout.error =
-                        "getString(R.string.ingredients_required)"
+                        getString(R.string.ingredients_required)
                 }
                 NewFoodEntryViewModel.SaveResult.Success -> {
                     logSaveFoodEntryEvent(getFoodEntryFromForm())
