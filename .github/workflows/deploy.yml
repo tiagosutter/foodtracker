@@ -56,7 +56,6 @@ jobs:
       - name: Build and upload AAB to Firebase App Distribution
         run: ./gradlew bundleRelease appDistributionUploadRelease --artifactType="AAB" --stacktrace
         env:
-          FOODTRACKER_KEYSTORE_FILE: ${{ secrets.FOODTRACKER_KEYSTORE_FILE }}
           FOODTRACKER_KEYSTORE_PWD: ${{ secrets.FOODTRACKER_KEYSTORE_PWD }}
           FOODTRACKER_KEY_ALIAS: ${{ secrets.FOODTRACKER_KEY_ALIAS }}
           FOODTRACKER_KEY_PWD: ${{ secrets.FOODTRACKER_KEY_PWD }}
