@@ -37,6 +37,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Grand execute permissions to gradlew
+        run: chmod +x gradlew
+
       - name: Setup keystore
         run: echo $E_FOODTRACKER_KEYSTORE_FILE | base64 -d > app/keystore.jks
 
