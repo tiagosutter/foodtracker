@@ -41,14 +41,14 @@ jobs:
         run: chmod +x gradlew
 
       - name: Setup keystore
-        - run: 'echo "$E_FOODTRACKER_KEYSTORE_FILE" | base64 -d > app/keystore.jks'
-          env:
-            E_FOODTRACKER_KEYSTORE_FILE: ${{ secrets.E_FOODTRACKER_KEYSTORE_FILE }}
+        run: 'echo "$E_FOODTRACKER_KEYSTORE_FILE" | base64 -d > app/keystore.jks'
+        env:
+          E_FOODTRACKER_KEYSTORE_FILE: ${{ secrets.E_FOODTRACKER_KEYSTORE_FILE }}
 
       - name: Setup firebase credential file
-        - run: 'echo "$E_FOODTRACKER_FIREBASE_SERVICE_CREDENTIALS_FILE" | base64 -d > app/service-account-firebasedist.json'
-          env:
-            E_FOODTRACKER_FIREBASE_SERVICE_CREDENTIALS_FILE: ${{ secrets.E_FOODTRACKER_FIREBASE_SERVICE_CREDENTIALS_FILE }}
+        run: 'echo "$E_FOODTRACKER_FIREBASE_SERVICE_CREDENTIALS_FILE" | base64 -d > app/service-account-firebasedist.json'
+        env:
+          E_FOODTRACKER_FIREBASE_SERVICE_CREDENTIALS_FILE: ${{ secrets.E_FOODTRACKER_FIREBASE_SERVICE_CREDENTIALS_FILE }}
 
 
       - name: Build and upload AAB to Firebase App Distribution
