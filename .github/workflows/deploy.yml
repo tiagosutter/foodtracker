@@ -38,10 +38,10 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Setup keystore
-        run: echo $FOODTRACKER_KEYSTORE_FILE | base64 -d > app/keystore.jks
+        run: echo $E_FOODTRACKER_KEYSTORE_FILE | base64 -d > app/keystore.jks
 
       - name: Setup firebase credential file
-        run: echo $FOODTRACKER_FIREBASE_SERVICE_CREDENTIALS_FILE | base64 -d > app/service-account-firebasedist.json
+        run: echo $E_FOODTRACKER_FIREBASE_SERVICE_CREDENTIALS_FILE | base64 -d > app/service-account-firebasedist.json
 
       - name: Build and upload AAB to Firebase App Distribution
         run: ./gradlew bundleRelease appDistributionUploadRelease --artifactType="AAB"
