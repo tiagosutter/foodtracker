@@ -81,7 +81,7 @@ class FoodEntriesViewModelTest {
     @Test
     fun getAllEntries_entriesExist_viewStateGetsExpectedEntries() {
         // Arrange
-        setupToHaveEntires()
+//        setupToHaveEntires()
 
         // Act
         viewModel.getAllEntries()
