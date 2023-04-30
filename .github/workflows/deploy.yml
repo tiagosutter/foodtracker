@@ -54,4 +54,4 @@ jobs:
 
 
       - name: Build and upload AAB to Firebase App Distribution
-        run: ./gradlew bundleRelease appDistributionUploadRelease --artifactType="AAB"
+        run: ./gradlew bundleRelease appDistributionUploadRelease --artifactType="AAB" --stacktrace
