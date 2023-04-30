@@ -1,5 +1,1 @@
-- Resolve bug que permitia arrastar separador de data
-- Adiciona melhor feedback visual ao remover com swipe
-- Adiciona mais analytics
-- Adiciona LeakCanary
-- Selecionar da galeria
+- Testing GitHub Actions

@@ -9,6 +9,7 @@ plugins {
     id 'com.google.firebase.crashlytics'
 }
 
+def appVersionCode = Integer.valueOf(System.env.APP_VERSION_NUMBER ?: 0) + 10
 android {
     namespace 'br.dev.tiagosutter.foodtracker'
     compileSdk 33
@@ -17,7 +18,7 @@ android {
         applicationId "br.dev.tiagosutter.foodtracker"
         minSdk 22
         targetSdk 33
-        versionCode 9
+        versionCode appVersionCode
         versionName "1.6"
 
         testInstrumentationRunner "br.dev.tiagosutter.foodtracker.HiltTestRunner"

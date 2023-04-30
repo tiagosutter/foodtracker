@@ -1,0 +1,47 @@
+name: Publish
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  APP_VERSION_NUMBER: ${{ github.run_number }}
+
+jobs:
+  test:
+    name: Unit tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 11
+          cache: 'gradle'
+
+      - name: Grand execute permissions to gradlew
+        run: chmod +x gradlew
+
+      - name: Run unit tests
+        run: ./gradlew testDebug
+
+
+  firebase:
+    name: Firebase App Distribution
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup keystore
+        run: echo $FOODTRACKER_KEYSTORE_FILE | base64 -d > app/keystore.jks
+
+      - name: Setup firebase credential file
+        run: echo $FOODTRACKER_FIREBASE_SERVICE_CREDENTIALS_FILE | base64 -d > app/service-account-firebasedist.json
+
+      - name: Build and upload AAB to Firebase App Distribution
+        run: ./gradlew bundleRelease appDistributionUploadRelease --artifactType="AAB"
