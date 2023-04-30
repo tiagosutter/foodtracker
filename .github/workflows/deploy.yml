@@ -7,7 +7,7 @@ on:
 env:
   APP_VERSION_NUMBER: ${{ github.run_number }}
   FOODTRACKER_KEYSTORE_FILE: keystore.jks
-  FOODTRACKER_FIREBASE_SERVICE_CREDENTIALS_FILE: service-account-firebasedist.json
+  FOODTRACKER_FIREBASE_SERVICE_CREDENTIALS_FILE: app/service-account-firebasedist.json
 
 jobs:
   test:
