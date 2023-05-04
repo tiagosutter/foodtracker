@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 env:
-  APP_VERSION_NUMBER: ${{ github.run_number }}
+  APP_VERSION_NUMBER: ${{ github.run_id }}
   FOODTRACKER_KEYSTORE_FILE: keystore.jks
   FOODTRACKER_FIREBASE_SERVICE_CREDENTIALS_FILE: app/service-account-firebasedist.json
 
