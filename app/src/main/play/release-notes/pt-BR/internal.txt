@@ -1,3 +1,2 @@
-Funcionalidade selecionar da galeria.
-Melhora feedback visual ao arrastar para deletar.
+Adiciona botão salvar.
 Resolve alguns bugs.

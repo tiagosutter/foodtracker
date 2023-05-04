@@ -1,4 +1,4 @@
-name: Publish
+name: Test and deploy to Firebase App Distribution
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
           java-version: 11
           cache: 'gradle'
 
-      - name: Grand execute permissions to gradlew
+      - name: Grant execute permissions to gradlew
         run: chmod +x gradlew
 
       - name: Run unit tests
@@ -39,7 +39,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Grand execute permissions to gradlew
+      - name: Grant execute permissions to gradlew
         run: chmod +x gradlew
 
       - name: Setup keystore
