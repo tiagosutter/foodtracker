@@ -7,6 +7,7 @@ plugins {
     id 'com.google.firebase.appdistribution'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id 'com.github.triplet.play'
 }
 
 def appVersionCode = Integer.valueOf(System.env.APP_VERSION_NUMBER ?: 0) + 10
@@ -67,6 +68,10 @@ android {
     buildFeatures {
         viewBinding true
     }
+}
+
+play {
+    serviceAccountCredentials.set(file(System.getenv("FOODTRACKER_GRADLE_PUBLISHER_CREDENTIALS_FILE") ?: "NO GPP CRED. SET"))
 }
 
 dependencies {
