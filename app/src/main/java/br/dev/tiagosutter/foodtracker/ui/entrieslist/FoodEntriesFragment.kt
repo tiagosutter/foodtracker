@@ -115,10 +115,17 @@ class FoodEntriesFragment : Fragment(), Interaction {
         val touchHelper = ItemTouchHelper(simpleCallback)
         touchHelper.attachToRecyclerView(binding.foodEntriesRecyclerView)
         binding.foodEntriesRecyclerView.adapter = foodEntriesAdapter
+        binding.tvNoEntriesFound.setVisible(true)
+    }
+
+    fun View.setVisible(visible: Boolean) {
+        this.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
     private fun registerViewModelObservers() {
         viewModel.viewState.observe(viewLifecycleOwner) { viewState ->
+            val empty = viewState.entriesByDate.isEmpty()
+            binding.tvNoEntriesFound.setVisible(empty)
             foodEntriesAdapter.submitList(viewState.entriesByDate)
         }
         viewModel.getAllEntries()
