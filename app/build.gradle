@@ -10,7 +10,7 @@ plugins {
     id 'com.github.triplet.play'
 }
 
-def appVersionCode = Integer.valueOf(System.env.APP_VERSION_NUMBER ?: 0) + 12
+def appVersionCode = Integer.valueOf(System.env.APP_VERSION_NUMBER ?: 0) + 15
 android {
     namespace 'br.dev.tiagosutter.foodtracker'
     compileSdk 33
