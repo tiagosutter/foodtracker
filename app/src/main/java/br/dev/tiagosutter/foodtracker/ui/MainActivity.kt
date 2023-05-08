@@ -26,9 +26,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var notificationScheduler: NotificationScheduler
-
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var analytics: FirebaseAnalytics
@@ -70,12 +67,6 @@ class MainActivity : AppCompatActivity() {
                 .actionFoodEntriesListFragmentToNewFoodEntryFragment(null, "")
             navController.navigate(action)
         }
-
-        if (!hasNotificationPermission() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requestNotificationPermission()
-        } else {
-            notificationScheduler.schedule()
-        }
     }
 
     private fun initializeFirebaseAnalytics() {
@@ -84,38 +75,6 @@ class MainActivity : AppCompatActivity() {
         //   https://support.google.com/firebase/answer/9234069?hl=en
         //   https://support.google.com/firebase/answer/9268042?hl=en
         analytics = Firebase.analytics
-    }
-
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private fun requestNotificationPermission() {
-        val requestPermissionLauncher =
-            registerForActivityResult(
-                ActivityResultContracts.RequestPermission()
-            ) { isGranted: Boolean ->
-                if (isGranted) {
-                    notificationScheduler.schedule()
-
-                } else {
-                    // TODO: Create a settings screen for
-                    //  Explaining to the user that the feature is unavailable because the
-                    //  feature requires a permission that the user has denied. At the
-                    //  same time, respect the user's decision. Don't link to system
-                    //  settings in an effort to convince the user to change their
-                    //  decision.
-                }
-            }
-        requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-    }
-
-    private fun hasNotificationPermission(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) == PackageManager.PERMISSION_GRANTED
-        } else {
-            true
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

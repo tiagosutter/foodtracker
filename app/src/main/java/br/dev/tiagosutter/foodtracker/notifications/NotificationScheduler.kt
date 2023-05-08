@@ -1,14 +1,19 @@
 package br.dev.tiagosutter.foodtracker.notifications
 
+import android.Manifest
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
 
 class NotificationScheduler(
-    private val activity: AppCompatActivity,
+    private val context: Context,
     private val alarmManager: AlarmManager
 ) {
 
@@ -17,9 +22,29 @@ class NotificationScheduler(
         const val CHANNEL_NAME = "Daily Alerts"
     }
 
-    fun schedule() {
+    enum class SchedulingResult {
+        SUCCESS,
+        NO_PERMISSION
+    }
+
+    private fun hasNotificationPermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.checkSelfPermission(
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            true
+        }
+    }
+
+    fun schedule(): SchedulingResult {
+        val noPermission = !hasNotificationPermission()
+        if (noPermission) {
+            return SchedulingResult.NO_PERMISSION
+        }
+
         val intent = Intent(
-            activity,
+            context,
             ScheduleNotificationBroadcastReceiver::class.java
         )
         val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -27,12 +52,14 @@ class NotificationScheduler(
         } else {
             PendingIntent.FLAG_UPDATE_CURRENT
         }
-        val pendingIntent = PendingIntent.getBroadcast(activity, 1, intent, flags)
+        val pendingIntent = PendingIntent.getBroadcast(context, 1, intent, flags)
         alarmManager.setInexactRepeating(
             AlarmManager.RTC,
-            System.currentTimeMillis()+AlarmManager.INTERVAL_HALF_DAY,
+            System.currentTimeMillis() + AlarmManager.INTERVAL_HALF_DAY,
             AlarmManager.INTERVAL_HALF_DAY,
             pendingIntent
         )
+
+        return SchedulingResult.SUCCESS
     }
 }

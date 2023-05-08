@@ -7,9 +7,8 @@ import androidx.lifecycle.viewModelScope
 import br.dev.tiagosutter.foodtracker.database.FoodEntryDao
 import br.dev.tiagosutter.foodtracker.entities.FoodEntry
 import br.dev.tiagosutter.foodtracker.entities.FoodEntryWithImages
+import br.dev.tiagosutter.foodtracker.notifications.NotificationScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
@@ -17,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FoodEntriesViewModel @Inject constructor(
     private val dao: FoodEntryDao,
+    private val notificationScheduler: NotificationScheduler
 ) : ViewModel() {
 
     private data class FoodEntriesByDate(
@@ -27,6 +27,19 @@ class FoodEntriesViewModel @Inject constructor(
 
     private val _viewState = MutableLiveData<FoodEntriesScreenViewState>()
     val viewState: LiveData<FoodEntriesScreenViewState> = _viewState
+
+    private val _scheduleNotificationResult = MutableLiveData<NotificationScheduler.SchedulingResult>()
+    val scheduleNotificationResult: LiveData<NotificationScheduler.SchedulingResult> =
+        _scheduleNotificationResult
+
+    init {
+        scheduleNotifications()
+    }
+
+    fun scheduleNotifications() {
+        val schedulingResult = notificationScheduler.schedule()
+        _scheduleNotificationResult.value = schedulingResult
+    }
 
     fun getAllEntries() {
         viewModelScope.launch {
@@ -76,6 +89,8 @@ class FoodEntriesViewModel @Inject constructor(
         mostRecentDeletion = foodEntryWithImages
         dao.deleteFoodEntry(foodEntry)
     }
+
+
 
 
 }

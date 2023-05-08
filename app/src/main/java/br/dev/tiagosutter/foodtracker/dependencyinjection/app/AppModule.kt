@@ -2,11 +2,13 @@ package br.dev.tiagosutter.foodtracker.dependencyinjection.app
 
 import android.app.AlarmManager
 import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import br.dev.tiagosutter.foodtracker.BuildConfig
 import br.dev.tiagosutter.foodtracker.database.FoodTrackerDatabase
+import br.dev.tiagosutter.foodtracker.notifications.NotificationScheduler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,6 +30,14 @@ class AppModule {
     @Provides
     fun notificationManager(@ApplicationContext applicationContext: Context): NotificationManagerCompat =
         NotificationManagerCompat.from(applicationContext)
+
+    @Provides
+    fun notificationScheduler(
+        @ApplicationContext context: Context,
+        alarmManager: AlarmManager
+    ): NotificationScheduler {
+        return NotificationScheduler(context, alarmManager)
+    }
 
     @Provides
     @AppScope

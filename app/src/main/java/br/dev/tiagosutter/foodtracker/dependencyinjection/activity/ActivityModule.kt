@@ -14,13 +14,6 @@ import dagger.hilt.android.components.ActivityComponent
 @Module
 @InstallIn(ActivityComponent::class)
 class ActivityModule {
-    @Provides
-    fun notificationScheduler(
-        activity: AppCompatActivity,
-        alarmManager: AlarmManager
-    ): NotificationScheduler {
-        return NotificationScheduler(activity, alarmManager)
-    }
 
     @Provides
     fun appCompatActivity(activity: Activity): AppCompatActivity = activity as AppCompatActivity

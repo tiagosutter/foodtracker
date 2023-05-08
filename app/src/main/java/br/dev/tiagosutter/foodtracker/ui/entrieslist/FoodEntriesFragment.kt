@@ -1,13 +1,16 @@
 package br.dev.tiagosutter.foodtracker.ui.entrieslist
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.graphics.Canvas
-import android.opengl.Visibility
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -15,6 +18,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import br.dev.tiagosutter.foodtracker.R
 import br.dev.tiagosutter.foodtracker.databinding.FragmentFoodEntriesBinding
+import br.dev.tiagosutter.foodtracker.notifications.NotificationScheduler
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.logEvent
@@ -25,6 +29,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class FoodEntriesFragment : Fragment(), Interaction {
 
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     private var _binding: FragmentFoodEntriesBinding? = null
     private val binding get() = _binding!!
     private lateinit var foodEntriesAdapter: FoodEntriesAdapter
@@ -42,6 +47,22 @@ class FoodEntriesFragment : Fragment(), Interaction {
         _binding = FragmentFoodEntriesBinding.inflate(inflater, container, false)
         foodEntriesAdapter = FoodEntriesAdapter(this)
         registerViewModelObservers()
+        requestPermissionLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                if (isGranted) {
+                    viewModel.scheduleNotifications()
+
+                } else {
+                    // TODO: Create a settings screen for
+                    //  Explaining to the user that the feature is unavailable because the
+                    //  feature requires a permission that the user has denied. At the
+                    //  same time, respect the user's decision. Don't link to system
+                    //  settings in an effort to convince the user to change their
+                    //  decision.
+                }
+            }
         return binding.root
 
     }
@@ -76,7 +97,7 @@ class FoodEntriesFragment : Fragment(), Interaction {
                     if (viewHolder is FoodItemViewHolder) {
                         val foodItemViewHolder: FoodItemViewHolder = viewHolder
                         foodItemViewHolder.binding.itemFoodEntryCard.translationX = dX
-                        if (foodItemViewHolder.binding.deletingItemBackgroundStub.parent  != null) {
+                        if (foodItemViewHolder.binding.deletingItemBackgroundStub.parent != null) {
                             foodItemViewHolder.binding.deletingItemBackgroundStub.inflate()
                         }
                         // TODO: Create some interesting animation for the delete icon
@@ -102,7 +123,8 @@ class FoodEntriesFragment : Fragment(), Interaction {
                 if (foodEntryListItem is FoodEntryListItemsViewState.FoodItem) {
                     viewModel.deleteEntry(foodEntryListItem.foodEntry)
                     analytics.logEvent("swipe_delete_item") {}
-                    val snackbar = Snackbar.make(binding.root, R.string.deleted, Snackbar.LENGTH_LONG)
+                    val snackbar =
+                        Snackbar.make(binding.root, R.string.deleted, Snackbar.LENGTH_LONG)
                     snackbar.setAction(R.string.undo_deletion) {
                         analytics.logEvent("undo_delete_entry") {}
                         it.isEnabled = false
@@ -128,7 +150,20 @@ class FoodEntriesFragment : Fragment(), Interaction {
             binding.tvNoEntriesFound.setVisible(empty)
             foodEntriesAdapter.submitList(viewState.entriesByDate)
         }
+        viewModel.scheduleNotificationResult.observe(viewLifecycleOwner) { result ->
+            if (result == NotificationScheduler.SchedulingResult.NO_PERMISSION) {
+                requestNotificationPermission()
+            }
+        }
         viewModel.getAllEntries()
+    }
+
+    private fun ifTiramisu(action: () -> Unit) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) action()
+    }
+
+    private fun requestNotificationPermission() = ifTiramisu {
+        requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
     }
 
     override fun onItemEditClicked(position: Int, item: FoodEntryListItemsViewState.FoodItem) {
