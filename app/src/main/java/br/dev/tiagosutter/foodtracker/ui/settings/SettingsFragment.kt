@@ -1,4 +1,4 @@
-package br.dev.tiagosutter.foodtracker.ui
+package br.dev.tiagosutter.foodtracker.ui.settings
 
 import android.Manifest
 import android.os.Build
