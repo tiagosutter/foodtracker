@@ -31,4 +31,10 @@
     <string name="choose_how_to_get_image">Choose how to get the image</string>
     <string name="gallery">Gallery</string>
     <string name="open_camera">Take new picture</string>
+    <string name="notifications">Notifications</string>
+    <string name="summary_off_notification_setting">Disabled, the app will not send notifications</string>
+    <string name="summary_notification_on">Enabled, the app will send notifications daily</string>
+    <string name="notify_daily">Notify daily</string>
+    <string name="settings">Settings</string>
+    <string name="could_not_enable_notifications_permission">Could not enable notification due to lack of permission</string>
 </resources>

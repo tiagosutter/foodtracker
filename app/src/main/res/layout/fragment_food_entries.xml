@@ -19,22 +19,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--  TODO: Implement filters  -->
-    <!--    <ImageButton-->
-    <!--        android:layout_width="48dp"-->
-    <!--        android:layout_height="48dp"-->
-    <!--        android:layout_marginEnd="24dp"-->
-    <!--        android:background="@null"-->
-    <!--        android:padding="8dp"-->
-    <!--        android:scaleType="fitCenter"-->
-    <!--        android:src="@drawable/more_vert"-->
-    <!--        android:visibility="gone"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="1.0"-->
-    <!--        app:layout_constraintStart_toEndOf="@+id/title"-->
-    <!--        app:layout_constraintTop_toTopOf="@+id/title"-->
-    <!--        app:tint="?attr/colorOnSurface"-->
-    <!--        tools:visibility="visible" />-->
+    <ImageButton
+        android:id="@+id/settingsButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:background="@null"
+        android:contentDescription="@string/settings"
+        android:padding="8dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/more_vert"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/title"
+        app:layout_constraintTop_toTopOf="@+id/title"
+        app:tint="?attr/colorOnSurface"
+        tools:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/foodEntriesRecyclerView"

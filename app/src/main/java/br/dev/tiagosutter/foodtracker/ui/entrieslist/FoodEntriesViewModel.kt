@@ -1,5 +1,6 @@
 package br.dev.tiagosutter.foodtracker.ui.entrieslist
 
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +9,7 @@ import br.dev.tiagosutter.foodtracker.database.FoodEntryDao
 import br.dev.tiagosutter.foodtracker.entities.FoodEntry
 import br.dev.tiagosutter.foodtracker.entities.FoodEntryWithImages
 import br.dev.tiagosutter.foodtracker.notifications.NotificationScheduler
+import br.dev.tiagosutter.foodtracker.settings.PreferenceStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -16,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class FoodEntriesViewModel @Inject constructor(
     private val dao: FoodEntryDao,
-    private val notificationScheduler: NotificationScheduler
+    private val notificationScheduler: NotificationScheduler,
+    private val preferences: PreferenceStore
 ) : ViewModel() {
 
     private data class FoodEntriesByDate(
@@ -33,12 +36,24 @@ class FoodEntriesViewModel @Inject constructor(
         _scheduleNotificationResult
 
     init {
-        scheduleNotifications()
+        scheduleNotificationsIfEnabled()
     }
 
-    fun scheduleNotifications() {
-        val schedulingResult = notificationScheduler.schedule()
-        _scheduleNotificationResult.value = schedulingResult
+    private fun scheduleNotificationsIfEnabled() {
+        val notificationEnabled = preferences.getDailyNotificationsEnabled()
+
+        if (notificationEnabled) {
+            val schedulingResult = notificationScheduler.schedule()
+            _scheduleNotificationResult.value = schedulingResult
+        }
+    }
+
+    fun handleNotificationPermission(isGranted: Boolean) {
+        if (isGranted) {
+            scheduleNotificationsIfEnabled()
+        } else {
+            preferences.disabledNotifications()
+        }
     }
 
     fun getAllEntries() {

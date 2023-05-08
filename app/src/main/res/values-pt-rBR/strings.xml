@@ -30,4 +30,10 @@
     <string name="choose_how_to_get_image">Escolha como pegar a imagem</string>
     <string name="gallery">Galeria</string>
     <string name="open_camera">Tirar foto</string>
+    <string name="notifications">Notificações</string>
+    <string name="summary_off_notification_setting">Desativado, o app não enviará notificações</string>
+    <string name="summary_notification_on">Ativado, o app enviará notificações diariamente</string>
+    <string name="notify_daily">Notificações</string>
+    <string name="settings">Configurações</string>
+    <string name="could_not_enable_notifications_permission">Não foi possível ativar devido a falta de permissões</string>
 </resources>

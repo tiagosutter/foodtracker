@@ -8,8 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.app.ActivityCompat
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
+import androidx.core.content.ContextCompat
 
 
 class NotificationScheduler(
@@ -29,7 +28,8 @@ class NotificationScheduler(
 
     private fun hasNotificationPermission(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            context.checkSelfPermission(
+            ContextCompat.checkSelfPermission(
+                context,
                 Manifest.permission.POST_NOTIFICATIONS
             ) == PackageManager.PERMISSION_GRANTED
         } else {
@@ -43,6 +43,24 @@ class NotificationScheduler(
             return SchedulingResult.NO_PERMISSION
         }
 
+        val pendingIntent = createIntent()
+        alarmManager.setInexactRepeating(
+            AlarmManager.RTC,
+            System.currentTimeMillis() + AlarmManager.INTERVAL_HALF_DAY,
+            AlarmManager.INTERVAL_HALF_DAY,
+            pendingIntent
+        )
+
+        return SchedulingResult.SUCCESS
+    }
+
+    fun cancel() {
+        val pendingIntent = createIntent()
+        pendingIntent?.cancel()
+        alarmManager.cancel(pendingIntent)
+    }
+
+    private fun createIntent(): PendingIntent? {
         val intent = Intent(
             context,
             ScheduleNotificationBroadcastReceiver::class.java
@@ -52,14 +70,6 @@ class NotificationScheduler(
         } else {
             PendingIntent.FLAG_UPDATE_CURRENT
         }
-        val pendingIntent = PendingIntent.getBroadcast(context, 1, intent, flags)
-        alarmManager.setInexactRepeating(
-            AlarmManager.RTC,
-            System.currentTimeMillis() + AlarmManager.INTERVAL_HALF_DAY,
-            AlarmManager.INTERVAL_HALF_DAY,
-            pendingIntent
-        )
-
-        return SchedulingResult.SUCCESS
+        return PendingIntent.getBroadcast(context, 1, intent, flags)
     }
 }

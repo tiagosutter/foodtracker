@@ -1,7 +1,6 @@
 package br.dev.tiagosutter.foodtracker.ui.entrieslist
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.graphics.Canvas
 import android.os.Build
 import android.os.Bundle
@@ -10,10 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import br.dev.tiagosutter.foodtracker.R
@@ -51,17 +51,7 @@ class FoodEntriesFragment : Fragment(), Interaction {
             registerForActivityResult(
                 ActivityResultContracts.RequestPermission()
             ) { isGranted: Boolean ->
-                if (isGranted) {
-                    viewModel.scheduleNotifications()
-
-                } else {
-                    // TODO: Create a settings screen for
-                    //  Explaining to the user that the feature is unavailable because the
-                    //  feature requires a permission that the user has denied. At the
-                    //  same time, respect the user's decision. Don't link to system
-                    //  settings in an effort to convince the user to change their
-                    //  decision.
-                }
+                viewModel.handleNotificationPermission(isGranted)
             }
         return binding.root
 
@@ -69,6 +59,15 @@ class FoodEntriesFragment : Fragment(), Interaction {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupRecyclerView()
+        binding.settingsButton.setOnClickListener {
+            findNavController().navigate(R.id.action_FoodEntriesListFragment_to_settingsFragment)
+        }
+        binding.tvNoEntriesFound.setVisible(true)
+    }
+
+    private fun setupRecyclerView() {
         val simpleCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             override fun getSwipeDirs(
                 recyclerView: RecyclerView,
@@ -105,13 +104,7 @@ class FoodEntriesFragment : Fragment(), Interaction {
                     return
                 } else {
                     super.onChildDraw(
-                        c,
-                        recyclerView,
-                        viewHolder,
-                        dX,
-                        dY,
-                        actionState,
-                        isCurrentlyActive
+                        c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive
                     )
                 }
 
@@ -137,7 +130,6 @@ class FoodEntriesFragment : Fragment(), Interaction {
         val touchHelper = ItemTouchHelper(simpleCallback)
         touchHelper.attachToRecyclerView(binding.foodEntriesRecyclerView)
         binding.foodEntriesRecyclerView.adapter = foodEntriesAdapter
-        binding.tvNoEntriesFound.setVisible(true)
     }
 
     fun View.setVisible(visible: Boolean) {

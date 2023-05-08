@@ -2,8 +2,10 @@ package br.dev.tiagosutter.foodtracker.dependencyinjection.app
 
 import android.app.AlarmManager
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
+import androidx.preference.PreferenceManager
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import br.dev.tiagosutter.foodtracker.BuildConfig

@@ -76,6 +76,7 @@ play {
 
 dependencies {
     implementation 'com.squareup.okio:okio:3.3.0'
+    implementation 'androidx.preference:preference:1.2.0'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 
@@ -103,7 +104,8 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
-
+    def preference_version = "1.2.0"
+    implementation "androidx.preference:preference-ktx:$preference_version"
 
     // Espresso
     def androidx_test_espresso = "3.3.0"

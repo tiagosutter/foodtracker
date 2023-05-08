@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_FoodEntriesListFragment_to_NewFoodEntryFragment"
             app:destination="@id/NewFoodEntryFragment" />
+        <action
+            android:id="@+id/action_FoodEntriesListFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/NewFoodEntryFragment"
@@ -32,4 +35,8 @@
             android:name="initialDate"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="br.dev.tiagosutter.foodtracker.ui.SettingsFragment"
+        android:label="@string/settings" />
 </navigation>
