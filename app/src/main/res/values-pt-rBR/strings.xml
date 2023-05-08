@@ -35,5 +35,9 @@
     <string name="summary_notification_on">Ativado, o app enviará notificações diariamente</string>
     <string name="notify_daily">Notificações</string>
     <string name="settings">Configurações</string>
-    <string name="could_not_enable_notifications_permission">Não foi possível ativar devido a falta de permissões</string>
+    <string name="could_not_enable_notifications_permission">Não foi possível habilitar  notificações. Permissão de notificação é necessária, por favor considere dar permissão de notificação ao aplicativo nas suas configurações.</string>
+    <string name="notification_permission">Permissão de notificação</string>
+    <string name="retry">Não, tentar novamente</string>
+    <string name="i_am_sure">Sim, tenho certeza</string>
+    <string name="are_you_sure_no_notification_permission">Sem a permissão o app não poderá enviar notificações, você tem certeza que deseja negar a permissão?</string>
 </resources>

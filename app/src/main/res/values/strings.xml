@@ -36,5 +36,9 @@
     <string name="summary_notification_on">Enabled, the app will send notifications daily</string>
     <string name="notify_daily">Notify daily</string>
     <string name="settings">Settings</string>
-    <string name="could_not_enable_notifications_permission">Could not enable notification due to lack of permission</string>
+    <string name="could_not_enable_notifications_permission">Could not enable notifications. Notification permission is required, please consider granting notification permission for the app in your settings.</string>
+    <string name="are_you_sure_no_notification_permission">Without notification permission the app will not be able to send you notifications, are you sure that you would like to deny the permission?</string>
+    <string name="notification_permission">Notification permission</string>
+    <string name="retry">No, retry</string>
+    <string name="i_am_sure">I\'m sure</string>
 </resources>
