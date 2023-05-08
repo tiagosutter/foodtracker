@@ -8,6 +8,8 @@ import br.dev.tiagosutter.foodtracker.database.FoodEntryDao
 import br.dev.tiagosutter.foodtracker.entities.FoodEntry
 import br.dev.tiagosutter.foodtracker.entities.FoodEntryWithImages
 import br.dev.tiagosutter.foodtracker.entities.SavedImage
+import br.dev.tiagosutter.foodtracker.notifications.NotificationScheduler
+import br.dev.tiagosutter.foodtracker.settings.PreferenceStore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -46,6 +48,12 @@ class FoodEntriesViewModelTest {
     @Mock
     lateinit var foodEntryDao: FoodEntryDao
 
+    @Mock
+    lateinit var notificationScheduler: NotificationScheduler
+
+    @Mock
+    lateinit var preferenceStore: PreferenceStore
+
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
@@ -61,7 +69,7 @@ class FoodEntriesViewModelTest {
     @Before
     @Throws(Exception::class)
     fun setup() {
-        viewModel = FoodEntriesViewModel(foodEntryDao)
+        viewModel = FoodEntriesViewModel(foodEntryDao, notificationScheduler, preferenceStore)
     }
 
     @Test
