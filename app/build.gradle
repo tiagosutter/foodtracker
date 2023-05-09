@@ -20,7 +20,7 @@ android {
         minSdk 22
         targetSdk 33
         versionCode appVersionCode
-        versionName "1.8"
+        versionName "1.10"
 
         testInstrumentationRunner "br.dev.tiagosutter.foodtracker.HiltTestRunner"
 
