@@ -254,7 +254,7 @@ class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
         val menuHost = requireActivity() as MenuHost
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menu.findItem(R.id.action_save).isVisible = true
+                menu.findItem(R.id.action_save)?.isVisible = true
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
