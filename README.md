@@ -1,5 +1,7 @@
 # foodtracker
 
+No Google Play: https://play.google.com/store/apps/details?id=br.dev.tiagosutter.foodtracker
+
 App para registrar consumo de alimentos e sintomas alérgicos junto ao registro.
 
 <img src="https://github.com/tiagosutter/foodtracker/blob/main/app/src/main/play/listings/pt-BR/graphics/phone-screenshots/3.png?raw=true" width="200" />
