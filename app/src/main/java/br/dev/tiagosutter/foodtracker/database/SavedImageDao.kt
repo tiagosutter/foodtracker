@@ -12,7 +12,7 @@ abstract class SavedImageDao() {
     abstract suspend fun insertSavedImage(savedImage: SavedImage)
 
     @Insert
-    abstract suspend fun insertSavedImages(savedImages: List<SavedImage>)
+    abstract suspend fun insertSavedImages(savedImages: List<SavedImage>): List<Long>
 
     @Delete
     abstract suspend fun deleteSavedImage(savedImage: SavedImage)

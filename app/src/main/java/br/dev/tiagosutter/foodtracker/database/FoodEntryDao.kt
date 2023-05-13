@@ -9,11 +9,7 @@ import java.util.*
 @Dao
 abstract class FoodEntryDao(database: FoodTrackerDatabase) {
 
-    private var savedImagesDao: SavedImageDao
-
-    init {
-        savedImagesDao = database.savedImagesDao()
-    }
+    private var savedImagesDao: SavedImageDao = database.savedImagesDao()
 
     @Upsert
     abstract suspend fun upsertFoodEntry(foodEntry: FoodEntry): Long
@@ -25,14 +21,15 @@ abstract class FoodEntryDao(database: FoodTrackerDatabase) {
     abstract fun getFoodEntryOrderedByDatetime(): Flow<List<FoodEntry>>
 
     @Transaction
-    open suspend fun insertFoodEntryWithImages(foodEntyWithImages: FoodEntryWithImages) {
-        val upsertedFoodEntryId = upsertFoodEntry(foodEntyWithImages.foodEntry)
+    open suspend fun insertFoodEntryWithImages(foodEntryWithImages: FoodEntryWithImages): Pair<Long, List<Long>> {
+        val upsertedFoodEntryId = upsertFoodEntry(foodEntryWithImages.foodEntry)
         if (upsertedFoodEntryId != -1L) {
-            for (image in foodEntyWithImages.images) {
+            for (image in foodEntryWithImages.images) {
                 image.parentFoodEntryId = upsertedFoodEntryId
             }
         }
-        savedImagesDao.insertSavedImages(foodEntyWithImages.images)
+        val savedImagesIds = savedImagesDao.insertSavedImages(foodEntryWithImages.images)
+        return Pair(upsertedFoodEntryId, savedImagesIds)
     }
 
     @Transaction
