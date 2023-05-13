@@ -35,4 +35,7 @@ abstract class FoodEntryDao(database: FoodTrackerDatabase) {
     @Transaction
     @Query("SELECT * FROM food_entry WHERE foodEntryId = :id")
     abstract suspend fun getFoodEntryWithImagesById(id: Long): FoodEntryWithImages
+
+    @Query("DELETE FROM food_entry")
+    abstract suspend fun deleteAll()
 }

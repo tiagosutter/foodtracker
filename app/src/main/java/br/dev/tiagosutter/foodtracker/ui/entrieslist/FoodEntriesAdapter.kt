@@ -110,8 +110,7 @@ class FoodEntriesAdapter(private val interaction: Interaction) :
 class FoodItemViewHolder(
     val binding: ItemFoodEntryBinding,
     private val interaction: Interaction
-) :
-    RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root) {
 
 
 

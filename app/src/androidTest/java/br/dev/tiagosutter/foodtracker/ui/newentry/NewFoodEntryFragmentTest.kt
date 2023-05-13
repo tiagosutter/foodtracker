@@ -33,9 +33,6 @@ class NewFoodEntryFragmentTest {
     @get:Rule
     var hiltRule: HiltAndroidRule = HiltAndroidRule(this)
 
-    @Inject
-    lateinit var dao: FoodEntryDao
-
     @Before
     fun setup() {
         hiltRule.inject()
