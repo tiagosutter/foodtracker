@@ -153,7 +153,6 @@ class NewFoodEntryFragment : Fragment(), AttachedImagesAdapter.Interaction {
                         Toast.makeText(requireContext(), "Successful save", Toast.LENGTH_SHORT)
                             .show()
                     }
-                    // TODO: Success dialog before going back just to have some dialogs usage
                     findNavController().popBackStack()
                 }
             }
