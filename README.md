@@ -18,4 +18,5 @@ Construído e mantido usando:
 - [SharedPreferences](https://developer.android.com/training/data-storage/shared-preferences?hl=pt-br) - para persistência de preferências
 - Coroutines e Flows
 - Firebase Crashlytics e Analytics
+- [LeakCanary](https://square.github.io/leakcanary/) - para identificar caso acontecesse um memory leak
 - [Timber](https://github.com/JakeWharton/timber) - no lugar do Log.d, para os logs, e com uso de `Tree` específica para enviar logs ao Firebase Crashlytics
